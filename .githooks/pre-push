@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+# Keep README.md skill/plugin tables in sync before each push.
+# If tables are stale: updates README, stages it, aborts push — commit then push again.
+
+set -euo pipefail
+shopt -s nullglob
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+README="$REPO_ROOT/README.md"
+TMP=$(mktemp)
+trap 'rm -f "$TMP"' EXIT
+
+# First non-empty, non-heading line after the h1 in a README
+readme_first_para() {
+  awk 'NR==1{next} /^#/{exit} NF==0{next} {print; exit}' "$1"
+}
+
+# description: field from SKILL.md frontmatter
+skill_frontmatter_desc() {
+  awk '/^---/{f++; next} f==1 && /^description:/{sub(/^description:[[:space:]]*/,""); print; exit}' "$1"
+}
+
+skill_desc() {
+  local dir="$1"
+  if [[ -f "$dir/README.md" ]]; then
+    readme_first_para "$dir/README.md"
+  elif [[ -f "$dir/SKILL.md" ]]; then
+    skill_frontmatter_desc "$dir/SKILL.md"
+  fi
+}
+
+plugin_desc() {
+  grep -o '"description"[[:space:]]*:[[:space:]]*"[^"]*"' "$1" 2>/dev/null | head -1 \
+    | sed 's/.*"description"[[:space:]]*:[[:space:]]*"\(.*\)"/\1/'
+}
+
+generate_readme() {
+  printf '# skills\n\nClaude Code skills and plugins collection.\n\n'
+
+  printf '## Skills\n\n'
+  printf '| Skill | Path | Description |\n'
+  printf '|-------|------|-------------|\n'
+  for dir in "$REPO_ROOT"/_claude/*/; do
+    name="$(basename "$dir")"
+    [[ "$name" == _* ]] && continue
+    [[ -f "$dir/SKILL.md" ]] || continue
+    desc=$(skill_desc "$dir")
+    printf '| %s | [_claude/%s/](_claude/%s/) | %s |\n' "$name" "$name" "$name" "$desc"
+  done
+
+  printf '\n## Plugins\n\n'
+  printf '| Plugin | Path | Description |\n'
+  printf '|--------|------|-------------|\n'
+  local pd="$REPO_ROOT/_claude/_plugins"
+  if [[ -d "$pd" ]]; then
+    for dir in "$pd"/*/; do
+      name="$(basename "$dir")"
+      pj="$dir/.claude-plugin/plugin.json"
+      [[ -f "$pj" ]] || continue
+      desc=$(plugin_desc "$pj")
+      printf '| %s | [_claude/_plugins/%s/](_claude/_plugins/%s/) | %s |\n' \
+        "$name" "$name" "$name" "$desc"
+    done
+  fi
+
+  printf '\n## Installation\n\n'
+  printf '```bash\n# Install a plugin\nclaude plugins add <plugin-source>\n```\n\n'
+  printf 'Or place the skill directory in your Claude Code skills path and restart.\n'
+}
+
+generate_readme > "$TMP"
+
+if ! diff -q "$README" "$TMP" > /dev/null 2>&1; then
+  cp "$TMP" "$README"
+  git -C "$REPO_ROOT" add README.md
+  printf '\npre-push: README.md updated to match current skills/plugins.\n'
+  printf 'Commit and push again:\n'
+  printf '  git commit -m "docs: sync README" && git push\n\n'
+  exit 1
+fi
