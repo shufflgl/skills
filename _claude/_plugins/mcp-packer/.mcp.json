@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "${user_config.output_dir}"
+      ]
+    },
+    "mcpb-shell": {
+      "command": "node",
+      "args": ["${__plugin_dir__}/bin/mcpb-server.js"],
+      "env": {
+        "OUTPUT_DIR": "${user_config.output_dir}"
+      }
+    }
+  }
+}
