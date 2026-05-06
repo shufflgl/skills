@@ -6,7 +6,7 @@ Reusable AI agent skills and runtime-specific plugins.
 
 | Skill | Path | Description |
 |-------|------|-------------|
-| onepassword-service-account | [onepassword-service-account/](onepassword-service-account/) | Use local 1Password service-account access through the `op` CLI without exposing service-account tokens or resolved secret values. |
+| 1password-service-account | [1password-service-account/](1password-service-account/) | Use local 1Password service-account access through the `op` CLI without exposing service-account tokens or resolved secret values. |
 
 ## Claude Code Skills
 

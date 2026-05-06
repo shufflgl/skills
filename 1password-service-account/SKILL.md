@@ -1,5 +1,5 @@
 ---
-name: onepassword-service-account
+name: 1password-service-account
 description: Use when a task needs local 1Password access through the op CLI with OP_SERVICE_ACCOUNT_TOKEN, including reading secrets, resolving op:// references, injecting .env/config templates, checking service-account access, or handling project credentials without exposing secret values.
 ---
 
@@ -14,19 +14,19 @@ Use the local 1Password CLI (`op`) with `OP_SERVICE_ACCOUNT_TOKEN` to retrieve p
 1. Check access before reading secrets:
 
 ```bash
-onepassword-service-account/scripts/op-check.sh
+1password-service-account/scripts/op-check.sh
 ```
 
 2. Prefer 1Password secret references over item names:
 
 ```bash
-onepassword-service-account/scripts/op-read.sh 'op://vault/item/field'
+1password-service-account/scripts/op-read.sh 'op://vault/item/field'
 ```
 
 3. For many secrets, create a template such as `.env.1password` with `{{ op://vault/item/field }}` placeholders, then inject to a local ignored file:
 
 ```bash
-onepassword-service-account/scripts/op-inject-env.sh .env.1password .env
+1password-service-account/scripts/op-inject-env.sh .env.1password .env
 ```
 
 ## Safety Rules
@@ -43,13 +43,13 @@ onepassword-service-account/scripts/op-inject-env.sh .env.1password .env
 Read one secret:
 
 ```bash
-onepassword-service-account/scripts/op-read.sh 'op://Engineering/GitHub PAT/token'
+1password-service-account/scripts/op-read.sh 'op://Engineering/GitHub PAT/token'
 ```
 
 Inject an environment file:
 
 ```bash
-onepassword-service-account/scripts/op-inject-env.sh .env.1password .env --force
+1password-service-account/scripts/op-inject-env.sh .env.1password .env --force
 ```
 
 List reachable vaults only for diagnosis, not discovery-by-dumping:
