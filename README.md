@@ -1,12 +1,12 @@
 # skills
 
-AI agent skills and plugins collection.
+Reusable AI agent skills and runtime-specific plugins.
 
-## Codex Skills
+## Skills
 
 | Skill | Path | Description |
 |-------|------|-------------|
-| onepassword-service-account | [_codex/onepassword-service-account/](_codex/onepassword-service-account/) | Use local 1Password service-account access through the `op` CLI without exposing service-account tokens or resolved secret values. |
+| onepassword-service-account | [onepassword-service-account/](onepassword-service-account/) | Use local 1Password service-account access through the `op` CLI without exposing service-account tokens or resolved secret values. |
 
 ## Claude Code Skills
 
@@ -27,4 +27,4 @@ AI agent skills and plugins collection.
 claude plugins add <plugin-source>
 ```
 
-For Codex, copy a skill directory from `_codex/` into `~/.codex/skills/` and restart the session. For Claude Code, place the skill directory in your Claude Code skills path and restart.
+Copy a root-level skill directory into the target agent's skills path and restart the session. Runtime-specific skills and plugins live under directories such as `_claude/`.
