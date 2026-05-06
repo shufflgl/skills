@@ -1,8 +1,14 @@
 # skills
 
-Claude Code skills and plugins collection.
+AI agent skills and plugins collection.
 
-## Skills
+## Codex Skills
+
+| Skill | Path | Description |
+|-------|------|-------------|
+| onepassword-service-account | [_codex/onepassword-service-account/](_codex/onepassword-service-account/) | Use local 1Password service-account access through the `op` CLI without exposing service-account tokens or resolved secret values. |
+
+## Claude Code Skills
 
 | Skill | Path | Description |
 |-------|------|-------------|
@@ -21,4 +27,4 @@ Claude Code skills and plugins collection.
 claude plugins add <plugin-source>
 ```
 
-Or place the skill directory in your Claude Code skills path and restart.
+For Codex, copy a skill directory from `_codex/` into `~/.codex/skills/` and restart the session. For Claude Code, place the skill directory in your Claude Code skills path and restart.

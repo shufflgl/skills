@@ -1,0 +1,4 @@
+interface:
+  display_name: "1Password Service Account"
+  short_description: "Reuse local 1Password service-account access"
+  default_prompt: "Use $onepassword-service-account to read the required project secrets from 1Password safely."
