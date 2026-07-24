@@ -19,3 +19,7 @@ AGENT_HANDOFF/
 .env
 .env.*
 !.env.example
+
+# Local agent runtime and skill installations
+/.agents/
+/.claude/

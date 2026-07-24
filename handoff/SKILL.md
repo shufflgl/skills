@@ -29,9 +29,11 @@ When the user asks to hand work off:
 3. Update the artifacts using the schema in `references/artifact-schema.md`. Write facts, not a chat transcript. At minimum record the objective, completed work, exact next actions, active paths, baseline, transfer method, validation results, and risks/unknowns.
 4. Set `README.md` status to `READY` and `transfer.md` “Ready for receiver” to `YES` only after the snapshot is complete and the code-transfer mechanism is specified.
 5. Run:
+
    ```sh
    python3 <skill-dir>/scripts/verify_handoff.py --repo <root> [--artifact-dir <directory>] --require-ready
    ```
+
    Resolve errors before declaring the handoff ready. Warnings require an explicit note in the artifacts or to the user.
 6. Tell the user how to transfer both code and artifacts. Do **not** commit, create a branch, create a patch, push, or copy files to another machine unless the user explicitly requests it.
 
@@ -43,9 +45,11 @@ When the user asks to receive or resume a handoff:
 
 1. Confirm that the code state and the single designated artifact directory were transferred together.
 2. Run:
+
    ```sh
    python3 <skill-dir>/scripts/verify_handoff.py --repo <root> [--artifact-dir <directory>] --require-ready
    ```
+
    Stop and report if the verifier reports errors. Treat baseline mismatch warnings as a reason to reconcile Git before changing code.
 3. Read in order: `README.md`, `snapshot.md`, `workspace.md`, `transfer.md`, then `validation.md`; read `decisions.md` only when it affects the intended change.
 4. Check the declared Git baseline against the current checkout, inspect the indicated files/diff, and rerun or extend relevant validation. Do not assume a previous agent’s statement is true merely because it appears in an artifact.
