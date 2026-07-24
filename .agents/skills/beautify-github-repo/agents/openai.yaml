@@ -1,0 +1,4 @@
+interface:
+  display_name: "Beautify GitHub Repository"
+  short_description: "Polish GitHub repositories and READMEs"
+  default_prompt: "Use $beautify-github-repo to polish this repository and make its README clear, attractive, and trustworthy."
