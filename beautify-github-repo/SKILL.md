@@ -1,6 +1,7 @@
 ---
 name: beautify-github-repo
 description: Audit and polish a GitHub repository's presentation, especially README files, with clear information architecture, restrained branding, badges, diagrams, screenshots, demos, repository metadata, and community-standard Markdown quality tools. Use when asked to beautify, modernize, redesign, clean up, or improve a repository or README; add badges or visuals; improve a GitHub landing page; or check README presentation, accessibility, links, and rendering.
+catalog_summary: Audit and polish a repository, especially its README, with restrained visuals and community-standard quality tools.
 ---
 
 # Beautify a GitHub repository
