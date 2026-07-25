@@ -7,11 +7,12 @@
 - Use secondary databases only to corroborate.
 - Identify the exact version and preserve qualifiers such as remix, arrangement, live, cover, or edit.
 - Omit unknown values. Never assign uploader, performer, arranger, or original artist to another role without evidence.
+- Make a reasonable effort to verify composer, lyricist, album, album artist, genre, and release date. Omit a field only after the available primary evidence does not establish it.
 - Record concise provenance in `comment`, including the Bilibili URL and sources used.
 
 ## Artwork
 
-Use the exact release cover for a documented release. For independent arrangements or fan works, prefer creator-published artwork or the video thumbnail. If none is suitable, use the optional workflow in [generated-cover-art.md](generated-cover-art.md). Never create a misleading official-looking cover.
+Every delivered file must contain one embedded cover for the exact recording. Use the exact release cover for a documented release. For independent arrangements or fan works, prefer creator-published artwork or the video thumbnail. If none is suitable, generate a cover by following [generated-cover-art.md](generated-cover-art.md). Never create a misleading official-looking cover or deliver coverless audio.
 
 ## Metadata JSON
 

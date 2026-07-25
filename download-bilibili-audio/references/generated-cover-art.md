@@ -1,6 +1,6 @@
-# Optional generated cover art
+# Generated cover art fallback
 
-Use this workflow only when no suitable original artwork exists and the user wants a generated cover. Generated artwork is a personal library asset, not an official release cover.
+Use this workflow whenever no suitable original artwork exists. Generated artwork is a personal library asset, not an official release cover. Do not treat generation as a separate deliverable: embed the selected result in the final M4A and remove the image afterward.
 
 ## Build the concept
 
@@ -36,9 +36,9 @@ Default to no text. Add title or artist text only when the user explicitly wants
 
 ## Generate and validate
 
-1. Use the available image-generation tool directly, or give the completed prompt to the user for GPT Image in ChatGPT.
+1. Use the available image-generation tool directly. If it is unavailable, stop the atomic workflow and report the blocker with no audio output; do not substitute unrelated artwork.
 2. Generate a `1024x1024` draft. After the concept is accepted, generate a `2048x2048` final when supported.
 3. Inspect the final image for subject, mood, square composition, thumbnail readability, unwanted text, logos, artifacts, and factual mismatches. Iterate with one targeted correction at a time.
 4. Save the selected JPEG or PNG inside the temporary working directory. It is an embedding input, not a separate user deliverable.
 5. Add `Cover art generated with GPT Image; not official artwork.` to the metadata `comment`, then embed it with `scripts/tag_m4a.py`.
-6. Whether generation or verification succeeds or fails, clean the image and all other temporary artifacts at the end of that attempt. Retry from the beginning when needed. Report only the final audio path; provide the prompt in chat only if useful.
+6. Whether generation or verification succeeds or fails, clean the image and all other temporary artifacts at the end of that attempt. Retry the entire audio workflow from the beginning when needed. Report only the final tagged audio; provide the prompt in chat only if useful.
