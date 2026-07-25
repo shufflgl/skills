@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bilibili Audio Downloader"
+  short_description: "Prepare Bilibili audio for Apple Music"
+  default_prompt: "Use $download-bilibili-audio to download this Bilibili music video and prepare it for Apple Music with verified metadata and suitable or generated cover art."
