@@ -1,6 +1,6 @@
 # Generated cover art fallback
 
-Use this workflow whenever no suitable original artwork exists. Generated artwork is a personal library asset, not an official release cover. Do not treat generation as a separate deliverable: embed the selected result in the final M4A and remove the image afterward.
+Use this workflow whenever no verified official song or release cover for the exact recording can be found online. Generated artwork is a personal library asset, not an official release cover. Do not use the Bilibili video thumbnail or a video frame as a fallback. Do not treat generation as a separate deliverable: embed the selected result in the final audio file and remove the image afterward.
 
 ## Build the concept
 
@@ -19,7 +19,7 @@ Use this structure and replace every bracketed value:
 
 ```text
 Use case: stylized-concept
-Asset type: square cover artwork for a personal Apple Music library
+Asset type: square cover artwork for a personal audio library
 Primary request: Create an original cover concept for [exact recording and version].
 Scene/backdrop: [visual environment grounded in the music]
 Subject: [one clear focal subject or abstract motif]
@@ -40,5 +40,5 @@ Default to no text. Add title or artist text only when the user explicitly wants
 2. Generate a `1024x1024` draft. After the concept is accepted, generate a `2048x2048` final when supported.
 3. Inspect the final image for subject, mood, square composition, thumbnail readability, unwanted text, logos, artifacts, and factual mismatches. Iterate with one targeted correction at a time.
 4. Save the selected JPEG or PNG inside the temporary working directory. It is an embedding input, not a separate user deliverable.
-5. Add `Cover art generated with GPT Image; not official artwork.` to the metadata `comment`, then embed it with `scripts/tag_m4a.py`.
+5. Add `Cover art generated with GPT Image; not official artwork.` to the metadata `comment`, then embed it with `scripts/tag_audio.py`.
 6. Whether generation or verification succeeds or fails, clean the image and all other temporary artifacts at the end of that attempt. Retry the entire audio workflow from the beginning when needed. Report only the final tagged audio; provide the prompt in chat only if useful.

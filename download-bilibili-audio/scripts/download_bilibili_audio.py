@@ -12,9 +12,6 @@ from urllib.parse import urlparse
 
 
 FILE_MARKER = "__BILIBILI_AUDIO_FILE__:"
-SUPPORTED_FORMATS = ("source", "m4a", "mp3", "opus", "wav", "flac")
-
-
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Download the best audio stream from one Bilibili video.",
@@ -25,12 +22,6 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=Path.cwd(),
         help="Destination directory (default: current directory).",
-    )
-    parser.add_argument(
-        "--audio-format",
-        choices=SUPPORTED_FORMATS,
-        default="source",
-        help="Output format (default: source, without transcoding).",
     )
     parser.add_argument(
         "--cookies-from-browser",
@@ -77,13 +68,6 @@ def build_command(args: argparse.Namespace, output_dir: Path) -> list[str]:
         "--print",
         f"after_move:{FILE_MARKER}%(filepath)s",
     ]
-
-    if args.audio_format != "source":
-        if not shutil.which("ffmpeg"):
-            raise RuntimeError(
-                f"ffmpeg is required to convert audio to {args.audio_format}"
-            )
-        command.extend(["--extract-audio", "--audio-format", args.audio_format])
 
     if args.cookies_from_browser:
         command.extend(["--cookies-from-browser", args.cookies_from_browser])

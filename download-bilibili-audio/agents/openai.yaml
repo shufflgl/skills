@@ -1,6 +1,6 @@
 interface:
   display_name: "Bilibili Audio Downloader"
-  short_description: "Complete Bilibili-to-Apple Music workflow"
+  short_description: "Source-quality Bilibili audio with rich tags"
   icon_small: "./assets/logo.png"
   icon_large: "./assets/logo.png"
-  default_prompt: "Use $download-bilibili-audio to turn this Bilibili link into a complete Apple Music-ready M4A with verified metadata and embedded cover art."
+  default_prompt: "Use $download-bilibili-audio to create a title-named source-quality audio file with verified metadata and official or newly generated cover art."

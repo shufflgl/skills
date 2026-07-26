@@ -33,7 +33,6 @@ class DownloadBilibiliAudioTests(unittest.TestCase):
     def test_source_download_does_not_request_transcoding(self) -> None:
         args = MODULE.argparse.Namespace(
             url="https://www.bilibili.com/video/BV1GJ411x7h7/",
-            audio_format="source",
             cookies_from_browser=None,
         )
         with patch.object(MODULE, "yt_dlp_command", return_value=["yt-dlp"]):
@@ -41,6 +40,7 @@ class DownloadBilibiliAudioTests(unittest.TestCase):
 
         self.assertIn("bestaudio/best", command)
         self.assertNotIn("--extract-audio", command)
+        self.assertNotIn("--audio-format", command)
         self.assertIn("--no-playlist", command)
 
     def test_extracts_existing_absolute_output_path(self) -> None:
