@@ -1,0 +1,4 @@
+interface:
+  display_name: "Summarize Video to Obsidian"
+  short_description: "Turn videos into linked Obsidian notes"
+  default_prompt: "Use $summarize-video-to-obsidian to understand this Bilibili or YouTube video and create a structured Obsidian note."

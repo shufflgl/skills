@@ -1,0 +1,2 @@
+# Relative paths are resolved from the current working directory.
+default_output_directory: _inbox/video-notes
