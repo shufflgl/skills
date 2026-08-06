@@ -10,3 +10,12 @@ repos:
         language: system
         pass_filenames: false
         files: ^(README\.md|[^/]+/SKILL\.md)$
+      - id: check-workflows
+        name: Personal workflow consistency
+        description: >-
+          Every personal workflow must follow the orchestration contract and
+          have a matching workflows catalog entry.
+        entry: python3 scripts/check_workflows.py
+        language: system
+        pass_filenames: false
+        files: ^(workflows/|scripts/check_workflows\.py$)
