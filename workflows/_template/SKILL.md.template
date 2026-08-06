@@ -1,0 +1,45 @@
+---
+name: workflow-name
+description: Describe what this workflow orchestrates and the requests that should trigger it.
+catalog_summary: Summarize the personalized task this workflow automates in one concise line.
+---
+
+# Workflow title
+
+State the personalized outcome and the invariant that makes this workflow worth
+repeating. Keep this file focused on orchestration; leave atomic procedures in
+their owning skills.
+
+## Dependencies
+
+| Skill | Source | Requirement | Purpose |
+| --- | --- | --- | --- |
+| `$skill-name` | Repository, installed skill, or plugin | required | State the capability consumed by this workflow. |
+
+## Defaults
+
+- Record only personalized defaults that materially reduce repeated decisions.
+- Allow an explicit request to override these defaults for the current run.
+
+## Workflow
+
+1. Preflight the declared dependencies and resolve the user's inputs.
+2. Invoke each skill by identifier and pass verified outputs to the next step.
+3. Keep orchestration decisions here and atomic implementation details in the
+   dependency skills.
+
+## Approval gates
+
+- List every action that requires explicit approval, including any proposed
+  substitution for an unavailable required skill.
+
+## Completion criteria
+
+- Define observable conditions that must all be true before reporting success.
+
+## Failure handling
+
+- State how to clean up partial work and report blockers.
+- Explain when an optional dependency may be skipped.
+- Never use a substitute for an unavailable required skill without explicit
+  user approval.
