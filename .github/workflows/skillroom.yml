@@ -1,0 +1,64 @@
+name: Skillroom
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-and-build:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.13.0"
+          cache: npm
+          cache-dependency-path: skill-market-dashboard/package-lock.json
+
+      - name: Validate skill and workflow catalogs
+        run: |
+          python3 scripts/check_catalog.py
+          python3 scripts/check_workflows.py
+
+      - name: Run repository tests
+        run: |
+          python3 -m unittest discover -s tests -p 'test_*.py'
+          python3 -m unittest discover -s download-bilibili-audio/tests -p 'test_*.py'
+          python3 -m unittest discover -s handoff/tests -p 'test_*.py'
+
+      - name: Install dashboard dependencies
+        working-directory: skill-market-dashboard
+        run: npm ci
+
+      - name: Test and export dashboard
+        working-directory: skill-market-dashboard
+        run: |
+          npm run lint
+          npm test
+          npm run build:pages
+
+      - name: Deploy production
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && env.CLOUDFLARE_API_TOKEN != ''
+        working-directory: skill-market-dashboard
+        run: npx wrangler pages deploy pages-dist --project-name shufflgl-skills --branch main
+
+      - name: Deploy pull request preview
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && env.CLOUDFLARE_API_TOKEN != ''
+        working-directory: skill-market-dashboard
+        run: npx wrangler pages deploy pages-dist --project-name shufflgl-skills --branch "pr-${{ github.event.number }}"
