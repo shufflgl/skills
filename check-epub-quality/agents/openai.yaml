@@ -1,0 +1,4 @@
+interface:
+  display_name: "Check EPUB Quality"
+  short_description: "Inspect EPUB integrity, cleanliness, and construction quality"
+  default_prompt: "Use $check-epub-quality to inspect this EPUB and report every quality issue without modifying it."
