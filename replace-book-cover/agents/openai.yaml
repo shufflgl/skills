@@ -1,0 +1,4 @@
+interface:
+  display_name: "Replace Book Cover"
+  short_description: "Research, redesign, and replace EPUB or PDF book covers"
+  default_prompt: "Use $replace-book-cover to research this book, generate a refined new cover, and safely replace its EPUB or PDF cover."
