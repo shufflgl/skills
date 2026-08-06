@@ -53,6 +53,10 @@ test("search and artifact filters are combined", () => {
   assert.deepEqual(filterSkills(skills, "", "references").map((skill) => skill.name), ["with-reference"]);
 });
 
+test("pinned filter narrows the catalog to browser-pinned skills", () => {
+  assert.deepEqual(filterSkills(skills, "", "pinned", ["with-reference"]).map((skill) => skill.name), ["with-reference"]);
+});
+
 test("generated public data contains no personal absolute paths", async () => {
   const catalog = await readFile(new URL("../.generated/catalog.json", import.meta.url), "utf8");
   assert.doesNotMatch(catalog, /\/(?:Users|home|private|Volumes)\//);

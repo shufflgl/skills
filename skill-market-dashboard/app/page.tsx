@@ -19,6 +19,7 @@ const snapshot = snapshotData as CatalogSnapshot;
 const artifactKinds: ArtifactKind[] = ["scripts", "tests", "references", "assets"];
 const filters: Array<{ value: CatalogFilter; label: string }> = [
   { value: "all", label: "All skills" },
+  { value: "pinned", label: "Pinned" },
   { value: "scripts", label: "Has scripts" },
   { value: "tests", label: "Has tests" },
   { value: "references", label: "Has references" },
@@ -66,6 +67,8 @@ export default function Home() {
   const [selectedName, setSelectedName] = useState(snapshot.skills[0]?.name ?? "");
   const [inspectorOpen, setInspectorOpen] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [copiedPrompt, setCopiedPrompt] = useState(false);
+  const [pinned, setPinned] = useState<string[]>([]);
   const [urlReady, setUrlReady] = useState(false);
 
   useEffect(() => {
@@ -76,6 +79,12 @@ export default function Home() {
     setQuery(initial.query);
     setFilter(initial.filter);
     setView(initial.view);
+    try {
+      const stored = window.localStorage.getItem("skillroom:pinned");
+      if (stored) setPinned(JSON.parse(stored));
+    } catch {
+      // Ignore unavailable or malformed browser storage.
+    }
     if (initial.item.startsWith("skill:")) {
       const name = initial.item.slice("skill:".length);
       if (snapshot.skills.some((skill) => skill.name === name)) setSelectedName(name);
@@ -83,6 +92,15 @@ export default function Home() {
     setUrlReady(true);
     /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
+
+  useEffect(() => {
+    if (!urlReady) return;
+    try {
+      window.localStorage.setItem("skillroom:pinned", JSON.stringify(pinned));
+    } catch {
+      // Pinning is an enhancement; the catalog remains usable without storage.
+    }
+  }, [pinned, urlReady]);
 
   useEffect(() => {
     if (!urlReady) return;
@@ -97,8 +115,8 @@ export default function Home() {
   }, [filter, query, section, selectedName, urlReady, view]);
 
   const filteredSkills = useMemo(
-    () => filterSkills(snapshot.skills, query, filter),
-    [filter, query],
+    () => filterSkills(snapshot.skills, query, filter, pinned),
+    [filter, pinned, query],
   );
   const selected = snapshot.skills.find((skill) => skill.name === selectedName) ?? snapshot.skills[0];
   const passingChecks = snapshot.checks.filter((check) => check.status === "pass").length;
@@ -110,13 +128,30 @@ export default function Home() {
     setSelectedName(skill.name);
     setInspectorOpen(true);
     setCopied(false);
+    setCopiedPrompt(false);
   }
 
-  async function copySkillId() {
+  async function copyText(value: string, onCopied: (value: boolean) => void) {
+    try {
+      await navigator.clipboard.writeText(value);
+      onCopied(true);
+      window.setTimeout(() => onCopied(false), 1600);
+    } catch {
+      onCopied(false);
+    }
+  }
+
+  function togglePinned() {
     if (!selected) return;
-    await navigator.clipboard.writeText(selected.skillId);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1600);
+    setPinned((items) =>
+      items.includes(selected.name)
+        ? items.filter((item) => item !== selected.name)
+        : [...items, selected.name],
+    );
+  }
+
+  function invocationFor(skill: SkillRecord): string {
+    return `Use ${skill.skillId} for this task. Follow its full safety and completion contract.`;
   }
 
   const catalog = (
@@ -251,6 +286,18 @@ export default function Home() {
                 <div className="track"><i style={{ width: `${(referencedSkills / snapshot.skills.length) * 100}%` }} /></div>
               </article>
             </section>
+            <section className="start-panel" aria-labelledby="start-title">
+              <div className="start-copy">
+                <p className="eyebrow">FROM CATALOG TO ACTION</p>
+                <h2 id="start-title">Use a skill in three steps.</h2>
+                <p>These skills are instructions for an agent, not buttons in this website. Pick a capability, copy its identifier, and give the task to Codex or Claude with the repository context available.</p>
+              </div>
+              <div className="start-steps">
+                <div><b>01</b><strong>Pick a capability</strong><span>Search by outcome, trigger, or artifact.</span></div>
+                <div><b>02</b><strong>Copy the Skill ID</strong><span>Use the exact <code>$skill-name</code> identifier.</span></div>
+                <div><b>03</b><strong>Run it in your agent</strong><span>The agent follows the source contract and reports blockers.</span></div>
+              </div>
+            </section>
             {catalog}
             <section className="recent-panel" aria-labelledby="recent-title">
               <div className="panel-heading"><div><h2 id="recent-title">Recent repository changes</h2><span>Latest commits</span></div></div>
@@ -350,6 +397,10 @@ export default function Home() {
             <span className="skill-mark large" style={{ background: colorForName(selected.name) }}>{markForName(selected.name)}</span>
             <div><h2>{selected.displayName}</h2><code>{selected.skillId}</code></div>
           </div>
+          <button className={`pin-action ${pinned.includes(selected.name) ? "pinned" : ""}`} onClick={togglePinned}>
+            <span>{pinned.includes(selected.name) ? "★" : "☆"}</span>
+            {pinned.includes(selected.name) ? "Pinned for this browser" : "Pin for later"}
+          </button>
           <div className="truth-block">
             <div><span>Catalog state</span><strong>Validated</strong></div>
             <p>Metadata and catalog summary are synchronized in this snapshot.</p>
@@ -358,13 +409,20 @@ export default function Home() {
             {artifactKinds.map((kind) => <div key={kind}><span>{kind}</span><strong>{selected.artifacts[kind].length}</strong></div>)}
           </div>
           <div className="summary-block"><span>Catalog summary</span><p>{selected.summary}</p></div>
+          <div className="use-block">
+            <div className="section-label"><span>Start a request</span><b>Agent handoff</b></div>
+            <code>{invocationFor(selected)}</code>
+            <button className="primary-action" onClick={() => copyText(invocationFor(selected), setCopiedPrompt)}>
+              {copiedPrompt ? "Copied starter request" : "Copy starter request"}
+            </button>
+          </div>
           <details className="trigger-block"><summary>When it should run</summary><p>{selected.description}</p></details>
           <div className="source-list">
             <div className="section-label"><span>Repository contents</span><b>{selected.files.length}</b></div>
             {selected.files.slice(0, 8).map((file) => <a key={file.path} href={file.url} target="_blank" rel="noreferrer"><span>{file.name}</span><small>{file.path}</small></a>)}
             {selected.files.length > 8 && <p>+ {selected.files.length - 8} more files in the repository</p>}
           </div>
-          <button className="primary-action" onClick={copySkillId}>{copied ? "Copied skill ID" : "Copy skill ID"}</button>
+          <button className="secondary-action" onClick={() => copyText(selected.skillId, setCopied)}>{copied ? "Copied skill ID" : "Copy skill ID"}</button>
           <div className="action-grid">
             <a href={selected.sourceUrl} target="_blank" rel="noreferrer">View SKILL.md</a>
             <a href={selected.editUrl} target="_blank" rel="noreferrer">Edit on GitHub</a>

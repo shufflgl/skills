@@ -1,7 +1,7 @@
 export type ArtifactKind = "scripts" | "tests" | "references" | "assets";
 export type ConsoleSection = "overview" | "skills" | "workflows" | "quality";
 export type CatalogView = "grid" | "list";
-export type CatalogFilter = "all" | ArtifactKind;
+export type CatalogFilter = "all" | ArtifactKind | "pinned";
 
 export type SourceFile = {
   name: string;
@@ -89,7 +89,7 @@ export type ConsoleState = {
 };
 
 const sections = new Set<ConsoleSection>(["overview", "skills", "workflows", "quality"]);
-const filters = new Set<CatalogFilter>(["all", "scripts", "tests", "references", "assets"]);
+const filters = new Set<CatalogFilter>(["all", "scripts", "tests", "references", "assets", "pinned"]);
 const views = new Set<CatalogView>(["grid", "list"]);
 
 export const defaultConsoleState: ConsoleState = {
@@ -129,10 +129,13 @@ export function filterSkills(
   skills: SkillRecord[],
   query: string,
   filter: CatalogFilter,
+  pinnedNames: string[] = [],
 ): SkillRecord[] {
   const needle = query.trim().toLowerCase();
   return skills.filter((skill) => {
-    const artifactMatch = filter === "all" || skill.artifacts[filter].length > 0;
+    const artifactMatch =
+      filter === "all" ||
+      (filter === "pinned" ? pinnedNames.includes(skill.name) : skill.artifacts[filter].length > 0);
     const searchable = `${skill.name} ${skill.skillId} ${skill.displayName} ${skill.summary} ${skill.description}`.toLowerCase();
     return artifactMatch && (!needle || searchable.includes(needle));
   });

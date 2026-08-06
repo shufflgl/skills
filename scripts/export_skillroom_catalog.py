@@ -238,7 +238,11 @@ def validation_check(
 
 def test_check(root: Path) -> dict[str, Any]:
     test_directories = [root / "tests"] + sorted(root.glob("*/tests"))
-    test_directories = [path for path in test_directories if path.is_dir()]
+    test_directories = [
+        path
+        for path in test_directories
+        if path.is_dir() and any(path.glob("test_*.py"))
+    ]
     total = 0
     skipped = 0
     failures: list[str] = []
