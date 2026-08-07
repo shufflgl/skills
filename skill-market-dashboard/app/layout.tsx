@@ -13,18 +13,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Skillroom — Skill Catalog",
+  title: "SKILL Agora — Skill Catalog",
   description: "A simple catalog of reusable agent skills.",
   metadataBase: new URL("https://skills.lglgl.me"),
   openGraph: {
-    title: "Skillroom — Skill Catalog",
+    title: "SKILL Agora — Skill Catalog",
     description: "Browse reusable agent skills by name and category.",
     images: [{ url: "/og.png", width: 1200, height: 630 }],
   },
   twitter: { card: "summary_large_image", images: ["/og.png"] },
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
   },
 };
 

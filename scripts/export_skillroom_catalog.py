@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export a sanitized, repository-backed catalog for the Skillroom website."""
+"""Export a sanitized, repository-backed catalog for the SKILL Agora website."""
 from __future__ import annotations
 
 import argparse
@@ -164,7 +164,7 @@ def skill_records(root: Path, base_url: str) -> list[dict[str, Any]]:
                 "sourceUrl": source_url(base_url, f"{name}/SKILL.md"),
                 "editUrl": source_url(base_url, f"{name}/SKILL.md", "edit"),
                 "issueUrl": (
-                    f"{base_url}/issues/new?title=Skillroom%3A%20{name}"
+                    f"{base_url}/issues/new?title=SKILL%20Agora%3A%20{name}"
                     f"&body=Skill%3A%20%60%24{name}%60%0A%0AWhat%20should%20change%3F%0A"
                     if base_url
                     else ""

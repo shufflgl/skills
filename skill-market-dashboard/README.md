@@ -1,6 +1,6 @@
-# Skillroom
+# SKILL Agora
 
-Skillroom is the public catalog for `shufflgl/skills`. It provides a focused,
+SKILL Agora is the public catalog for `shufflgl/skills`. It provides a focused,
 searchable view of reusable skills and workflows by type, category, name, and
 description.
 

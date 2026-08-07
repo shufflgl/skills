@@ -14,7 +14,7 @@ test("server-renders the repository-backed skill catalog", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.match(html, /Skillroom/);
+  assert.match(html, /SKILL Agora/);
   assert.match(html, /SKILL CATALOG/);
   assert.match(html, /Download Bilibili Audio/);
   assert.match(html, /Check EPUB Quality/);
@@ -22,6 +22,8 @@ test("server-renders the repository-backed skill catalog", async () => {
   assert.match(html, /Search catalog/);
   assert.match(html, /Workflows/);
   assert.match(html, /Download Bilibili Audio to Apple Music/);
+  assert.match(html, /Install/);
+  assert.match(html, /https:\/\/github.com\/shufflgl\/skills/);
   assert.doesNotMatch(html, /Required checks|Repository Console|Workflow dependencies|Artifact inventory/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/);
 });

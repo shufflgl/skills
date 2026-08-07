@@ -13,7 +13,7 @@
 * { box-sizing: border-box; }
 html { min-height: 100%; background: var(--paper); }
 body { margin: 0; min-height: 100%; background: var(--paper); color: var(--ink); font-family: var(--font-geist-sans), Arial, sans-serif; }
-button, input { font: inherit; }
+button, input, textarea { font: inherit; }
 button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
 a { color: inherit; text-decoration: none; }
 code { font-family: var(--font-geist-mono), ui-monospace, monospace; }
@@ -21,9 +21,10 @@ code { font-family: var(--font-geist-mono), ui-monospace, monospace; }
 main { width: min(1040px, calc(100% - 40px)); margin: 0 auto; }
 
 .site-header { min-height: 76px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
-.site-header > p { margin: 0; color: var(--muted); font-size: 13px; }
+.github-link { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid transparent; border-radius: 7px; color: var(--muted); }
+.github-link:hover { border-color: var(--line); background: var(--white); color: var(--ink); }
 .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 750; }
-.brand-mark { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 8px 8px 8px 3px; background: var(--ink); color: white; font: 700 14px/1 Georgia, serif; }
+.brand-logo { width: 36px; height: 36px; display: block; flex: 0 0 auto; border: 1px solid #d8cbb6; border-radius: 9px; background: #f7f0df url("/agora-logo.png") center / cover no-repeat; }
 
 .hero { padding: 72px 0 48px; }
 .eyebrow { margin: 0 0 12px; color: var(--green); font-size: 10px; font-weight: 800; letter-spacing: 1.8px; }
@@ -58,6 +59,8 @@ h1 { margin: 0; font: 500 clamp(40px, 7vw, 68px)/1.02 Georgia, "Times New Roman"
 .skill-category { color: #7f8984; }
 .skill-card h3 { margin: 22px 0 0; font: 600 20px/1.25 Georgia, serif; }
 .skill-card p { margin: 16px 0 0; color: #5f6965; font-size: 13px; line-height: 1.65; }
+.install-button { width: 34px; height: 34px; display: grid; place-items: center; margin-top: 22px; padding: 0; border: 1px solid #cbdad2; border-radius: 7px; background: #f8fbf9; color: var(--green); cursor: pointer; }
+.install-button:hover { border-color: var(--green); background: var(--soft-green); }
 
 .empty { min-height: 220px; display: grid; place-items: center; align-content: center; gap: 8px; border: 1px dashed #ccd5d0; border-radius: 12px; color: var(--muted); }
 .empty strong { color: var(--ink); font: 600 18px Georgia, serif; }
@@ -66,9 +69,20 @@ h1 { margin: 0; font: 500 clamp(40px, 7vw, 68px)/1.02 Georgia, "Times New Roman"
 footer { min-height: 70px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); color: #8b9490; font-size: 10px; text-transform: uppercase; letter-spacing: .7px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
+.modal-backdrop { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 20px; background: rgba(24, 32, 29, .42); }
+.install-modal { width: min(680px, 100%); padding: 25px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); box-shadow: 0 24px 70px rgba(24, 32, 29, .22); }
+.modal-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+.modal-header .eyebrow { margin-bottom: 8px; }
+.modal-header h2 { margin: 0; font: 600 24px/1.2 Georgia, serif; }
+.close-button { width: 32px; height: 32px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); cursor: pointer; font-size: 22px; line-height: 1; }
+.close-button:hover { background: #eef1ef; color: var(--ink); }
+.modal-intro { margin: 18px 0 12px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+.install-prompt { width: 100%; min-height: 270px; resize: vertical; padding: 14px; border: 1px solid #cfdad4; border-radius: 9px; background: #f7faf8; color: #33453e; font: 11px/1.65 var(--font-geist-mono), ui-monospace, monospace; }
+.copy-button { width: 100%; height: 40px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; margin-top: 10px; border: 0; border-radius: 8px; background: var(--ink); color: white; cursor: pointer; font-size: 12px; font-weight: 750; }
+.copy-button:hover { background: var(--green); }
+
 @media (max-width: 720px) {
   main { width: min(100% - 28px, 1040px); }
-  .site-header > p { display: none; }
   .hero { padding: 52px 0 38px; }
   h1 { letter-spacing: -1.6px; }
   .catalog-tools { align-items: stretch; flex-direction: column; }

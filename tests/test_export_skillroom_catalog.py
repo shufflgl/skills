@@ -23,7 +23,7 @@ class SkillroomCatalogExportTests(unittest.TestCase):
     def test_actual_repository_exports_every_cataloged_item(self) -> None:
         skills = exporter.skill_records(ROOT, exporter.repo_url(ROOT))
         workflows = exporter.workflow_records(ROOT)
-        self.assertEqual(len(skills), 7)
+        self.assertEqual(len(skills), len(exporter.skill_dirs(ROOT)))
         self.assertEqual(len(workflows), 1)
         self.assertEqual(
             {skill["name"] for skill in skills},
