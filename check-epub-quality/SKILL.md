@@ -1,5 +1,6 @@
 ---
 name: check-epub-quality
+category: Books
 description: Inspect a user-provided EPUB for structural integrity, readable content, metadata, language, navigation, cover and stylesheet resources, encryption or DRM, suspicious advertising, and signs of crude or incomplete construction. Use whenever the user attaches or points to an `.epub` and asks whether it is valid, clean, complete-looking, well made, ad-free, safe to read, or good quality. Do not search for, download, convert, repair, rename, or replace the ebook.
 catalog_summary: Inspect a provided EPUB for integrity, completeness signals, metadata, presentation resources, DRM, language, and inserted advertising.
 ---

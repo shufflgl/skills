@@ -1,5 +1,6 @@
 ---
 name: create-workflow
+category: Workflow
 description: Create or revise a strongly personalized, non-distributable workflow under this repository's workflows/ directory as a thin SKILL.md orchestration layer over existing repository or external skills. Use when the user asks to capture, standardize, formalize, or maintain a recurring personal process as a workflow, including its skill dependencies, defaults, ordered handoffs, approval gates, completion criteria, failure handling, and Workflow catalog entry.
 catalog_summary: Create validated personal workflows that orchestrate existing skills without duplicating their atomic procedures.
 ---

@@ -14,6 +14,7 @@ SPEC.loader.exec_module(check_workflows)
 
 VALID_SKILL = """---
 name: make-note
+category: Workflow
 description: Make a personalized note when explicitly requested.
 catalog_summary: Make one personalized note.
 ---
@@ -53,6 +54,10 @@ class WorkflowValidationTests(unittest.TestCase):
         temp = tempfile.TemporaryDirectory()
         self.addCleanup(temp.cleanup)
         root = Path(temp.name)
+        (root / "categories.json").write_text(
+            '{"Workflow": "Workflow category."}',
+            encoding="utf-8",
+        )
         workflows = root / "workflows"
         workflows.mkdir()
         (workflows / "README.md").write_text(

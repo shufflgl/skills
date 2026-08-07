@@ -17,3 +17,10 @@
 Strongly personalized, non-distributable skill orchestrations live in
 [`workflows/`](./workflows/). They are intentionally separate from the reusable
 Skill catalog above.
+
+## Skill categories
+
+Every Skill and personal workflow declares one approved `category` in its
+`SKILL.md` frontmatter. The allowed category names and their meanings are
+defined in [`categories.json`](./categories.json); add a category there only
+when an existing category cannot describe a new capability.

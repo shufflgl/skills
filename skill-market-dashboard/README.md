@@ -1,8 +1,14 @@
 # Skillroom
 
-Skillroom is the public repository console for `shufflgl/skills`. Its catalog, safe workflow map, artifact inventory, Git history, and quality results are generated from the repository during every build.
+Skillroom is the public catalog for `shufflgl/skills`. It provides a focused,
+searchable view of reusable skills and workflows by type, category, name, and
+description.
 
-The site is static and read-only. Repository maintenance actions open the corresponding GitHub source, editor, or issue form.
+The site is static and read-only. Its catalog is generated from the repository
+during every build.
+
+Categories are declared by each item's `SKILL.md` and validated against the
+repository-level [`categories.json`](../categories.json) source.
 
 ## Local development
 

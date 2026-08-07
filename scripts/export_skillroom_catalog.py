@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from catalog_lib import catalog_rows, read_frontmatter, skill_dirs
+from catalog_lib import catalog_rows, read_categories, read_frontmatter, skill_dirs
 from check_workflows import dependency_rows, validate as validate_workflows
 
 
@@ -134,6 +134,7 @@ def artifacts(directory: Path, root: Path, base_url: str) -> dict[str, list[dict
 
 def skill_records(root: Path, base_url: str) -> list[dict[str, Any]]:
     summaries = catalog_rows(root)
+    categories = read_categories(root)
     names = display_names(root / "README.md", "## Skill catalog")
     records: list[dict[str, Any]] = []
     for name in sorted(skill_dirs(root)):
@@ -144,6 +145,11 @@ def skill_records(root: Path, base_url: str) -> list[dict[str, Any]]:
             raise ValueError(f"{name}: SKILL.md is missing required metadata")
         if frontmatter["name"] != name:
             raise ValueError(f"{name}: frontmatter name does not match its directory")
+        category = frontmatter.get("category", "").strip()
+        if not category:
+            raise ValueError(f"{name}: SKILL.md is missing required category metadata")
+        if category not in categories:
+            raise ValueError(f"{name}: category '{category}' is not in categories.json")
         item_artifacts = artifacts(directory, root, base_url)
         records.append(
             {
@@ -153,6 +159,7 @@ def skill_records(root: Path, base_url: str) -> list[dict[str, Any]]:
                 "summary": summaries[name],
                 "description": frontmatter["description"],
                 "skillId": f"${name}",
+                "category": category,
                 "path": name,
                 "sourceUrl": source_url(base_url, f"{name}/SKILL.md"),
                 "editUrl": source_url(base_url, f"{name}/SKILL.md", "edit"),
@@ -173,6 +180,7 @@ def skill_records(root: Path, base_url: str) -> list[dict[str, Any]]:
 
 def workflow_records(root: Path) -> list[dict[str, Any]]:
     workflows_root = root / "workflows"
+    categories = read_categories(root)
     names = display_names(workflows_root / "README.md", "## Workflow catalog")
     records: list[dict[str, Any]] = []
     for directory in sorted(workflows_root.iterdir()):
@@ -183,6 +191,15 @@ def workflow_records(root: Path) -> list[dict[str, Any]]:
         rows, table_error = dependency_rows(skill_file.read_text(encoding="utf-8"))
         if table_error:
             raise ValueError(f"{directory.name}: {table_error}")
+        category = frontmatter.get("category", "").strip()
+        if not category:
+            raise ValueError(
+                f"{directory.name}: SKILL.md is missing required category metadata"
+            )
+        if category not in categories:
+            raise ValueError(
+                f"{directory.name}: category '{category}' is not in categories.json"
+            )
         dependencies = [
             {
                 "skill": skill.strip("`"),
@@ -203,6 +220,7 @@ def workflow_records(root: Path) -> list[dict[str, Any]]:
                 directory.name, directory.name.replace("-", " ").title()
             ),
             "summary": frontmatter.get("catalog_summary", ""),
+            "category": category,
             "dependencies": dependencies,
             "latestChange": public_change,
         }

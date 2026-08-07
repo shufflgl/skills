@@ -1,5 +1,6 @@
 ---
 name: handoff
+category: Workflow
 description: Create or recover portable, explicit task handoffs between fresh sessions, machines, Codex, and Claude Code. Use only when the user asks to hand work off, resume a handoff, or prepare/check portable handoff artifacts.
 catalog_summary: Transfer unfinished work safely between sessions, machines, Codex, and Claude Code.
 ---

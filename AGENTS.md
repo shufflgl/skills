@@ -10,6 +10,10 @@
   a concise one-line summary, used verbatim as the "What it helps with" text
   in the README's `## Skill catalog` table. Update both together whenever a
   skill's scope changes.
+- Every Skill and workflow `SKILL.md` frontmatter must include a `category`
+  field whose value exists in the repository-level `categories.json` allowlist.
+  Add a new category there only when an existing category cannot accurately
+  describe the capability.
 - Keep workflow sources under `workflows/<workflow-name>/`. Follow
   `workflows/README.md` for their contract and catalog rules. Do not install or
   link workflows into an agent runtime unless the user explicitly requests it;

@@ -1,5 +1,6 @@
 ---
 name: download-bilibili-audio-to-apple-music
+category: Media
 description: Download and fully enrich the audio for one authorized Bilibili video, save the verified title-named audio file to the personal iCloud Drive Music directory, and import it into the local Apple Music library without creating an obvious duplicate. Use when the user provides a bilibili.com or b23.tv video and asks to add, save, download, or import its audio or song into their Music app, Apple Music library, or iCloud Music folder.
 catalog_summary: Download verified Bilibili audio to the personal iCloud Music folder and import it into the Apple Music library.
 ---

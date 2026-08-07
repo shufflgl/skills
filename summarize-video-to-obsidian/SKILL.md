@@ -1,5 +1,6 @@
 ---
 name: summarize-video-to-obsidian
+category: Media
 description: Understand one Bilibili or YouTube video from its metadata, subtitles or transcription, and materially relevant visuals, then create or update a source-linked Obsidian Markdown note with faithful summaries, timestamped sections, key ideas, examples, questions, and action items. Use when the user provides a bilibili.com, b23.tv, youtube.com, or youtu.be video and asks to understand, summarize, study, extract knowledge from, or turn it into an Obsidian note, permanent note, literature note, lecture note, or Zettelkasten-style note.
 catalog_summary: Turn a Bilibili or YouTube video into a faithful, source-linked Obsidian knowledge note with summaries, timestamps, and key ideas.
 ---

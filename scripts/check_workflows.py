@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 from pathlib import Path
@@ -12,7 +13,7 @@ SKILL_IDENTIFIER = re.compile(r"^\$[a-z0-9]+(?:[-:][a-z0-9]+)*$")
 CATALOG_ROW = re.compile(
     r"^\|\s*\[.*?\]\(\./([a-z0-9]+(?:-[a-z0-9]+)*)/?\)\s*\|\s*(.*?)\s*\|$"
 )
-FRONTMATTER_KEYS = ("name", "description", "catalog_summary")
+FRONTMATTER_KEYS = ("name", "category", "description", "catalog_summary")
 REQUIRED_SECTIONS = (
     "Dependencies",
     "Defaults",
@@ -108,7 +109,10 @@ def validate(root: Path) -> list[str]:
 
     try:
         catalog = catalog_rows(readme)
-    except ValueError as exc:
+        categories = json.loads((root / "categories.json").read_text(encoding="utf-8"))
+        if not isinstance(categories, dict) or not categories:
+            raise ValueError("categories.json must contain at least one category")
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
         return [str(exc)]
 
     on_disk: dict[str, str] = {}
@@ -134,6 +138,10 @@ def validate(root: Path) -> list[str]:
             errors.append(f"{name}: unsupported frontmatter fields: {', '.join(unexpected)}")
         if frontmatter.get("name") != name:
             errors.append(f"{name}: frontmatter name must match the directory name")
+        if frontmatter.get("category") and frontmatter["category"] not in categories:
+            errors.append(
+                f"{name}: category '{frontmatter['category']}' is not in categories.json"
+            )
 
         sections = markdown_sections(text)
         for section in REQUIRED_SECTIONS:

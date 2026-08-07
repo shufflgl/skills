@@ -2,12 +2,14 @@
 from __future__ import annotations
 
 import re
+import json
 import subprocess
 import sys
 from pathlib import Path
 
 CATALOG_HEADING = "## Skill catalog"
 ROW_PATTERN = re.compile(r"^\|\s*\[.*?\]\(\./([A-Za-z0-9_-]+)/?\)\s*\|\s*(.*?)\s*\|\s*$")
+CATEGORY_SOURCE = "categories.json"
 
 
 def repo_root() -> Path:
@@ -40,6 +42,24 @@ def read_frontmatter(path: Path) -> dict[str, str]:
         key, _, value = line.partition(":")
         fields[key.strip()] = value.strip()
     return fields
+
+
+def read_categories(root: Path) -> dict[str, str]:
+    path = root / CATEGORY_SOURCE
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"{CATEGORY_SOURCE} is not valid JSON: {exc}") from exc
+    if not isinstance(data, dict) or not data or not all(
+        isinstance(name, str)
+        and isinstance(description, str)
+        and description.strip()
+        for name, description in data.items()
+    ):
+        raise ValueError(
+            f"{CATEGORY_SOURCE} must map each category name to a non-empty description"
+        )
+    return data
 
 
 def catalog_rows(root: Path) -> dict[str, str]:

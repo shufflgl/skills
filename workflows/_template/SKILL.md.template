@@ -1,5 +1,6 @@
 ---
 name: workflow-name
+category: approved-category
 description: Describe what this workflow orchestrates and the requests that should trigger it.
 catalog_summary: Summarize the personalized task this workflow automates in one concise line.
 ---

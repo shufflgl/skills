@@ -15,11 +15,13 @@ test("server-renders the repository-backed skill catalog", async () => {
   assert.equal(response.status, 200);
   const html = await response.text();
   assert.match(html, /Skillroom/);
-  assert.match(html, /Skill catalog/);
-  assert.match(html, /download-bilibili-audio/);
+  assert.match(html, /SKILL CATALOG/);
+  assert.match(html, /Download Bilibili Audio/);
   assert.match(html, /Check EPUB Quality/);
-  assert.match(html, /Required checks/);
-  assert.match(html, /Repository Console/);
-  assert.doesNotMatch(html, /Market readiness|Health score|Published|Review queue/);
+  assert.match(html, /Find the right skill/);
+  assert.match(html, /Search catalog/);
+  assert.match(html, /Workflows/);
+  assert.match(html, /Download Bilibili Audio to Apple Music/);
+  assert.doesNotMatch(html, /Required checks|Repository Console|Workflow dependencies|Artifact inventory/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/);
 });

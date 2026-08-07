@@ -1,5 +1,6 @@
 ---
 name: replace-book-cover
+category: Books
 description: Research a book from an imported EPUB or PDF, develop a content-faithful art direction, generate a refined replacement cover with GPT Image 2, and safely embed the approved image into a new EPUB or PDF copy. Use when a user wants to replace, redesign, modernize, restore, beautify, or upgrade an old, generic, damaged, or poorly made ebook cover in .epub or .pdf format.
 catalog_summary: Research a book, create a content-faithful cover with GPT Image 2, and safely replace the cover in an EPUB or PDF copy.
 ---

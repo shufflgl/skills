@@ -1,5 +1,6 @@
 ---
 name: download-bilibili-audio
+category: Media
 description: Atomically turn one Bilibili video into a source-quality audio file named only after the verified song title, preserving the best available original audio bitstream without transcoding while embedding primary-source official metadata and verified official or newly generated cover art. Use whenever the user provides a bilibili.com or b23.tv link and asks to download, save, extract, identify, tag, or add artwork to its audio. Treat "download" as shorthand for the complete workflow; never deliver a transcoded, untagged, unverified, or coverless audio file.
 catalog_summary: Atomically turn Bilibili videos into title-named, source-quality audio files with verified metadata and official-or-generated cover art.
 ---

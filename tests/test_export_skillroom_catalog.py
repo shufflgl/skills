@@ -38,12 +38,16 @@ class SkillroomCatalogExportTests(unittest.TestCase):
         self.assertNotIn("/Users/", public_workflow)
         self.assertEqual(
             set(workflows[0]),
-            {"kind", "name", "displayName", "summary", "dependencies", "latestChange"},
+            {"kind", "name", "displayName", "summary", "category", "dependencies", "latestChange"},
         )
 
     def test_absolute_path_in_public_dependency_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
+            (root / "categories.json").write_text(
+                '{"Workflow": "Workflow category."}',
+                encoding="utf-8",
+            )
             workflows = root / "workflows"
             workflow = workflows / "unsafe-workflow"
             workflow.mkdir(parents=True)
@@ -54,7 +58,7 @@ class SkillroomCatalogExportTests(unittest.TestCase):
                 encoding="utf-8",
             )
             (workflow / "SKILL.md").write_text(
-                "---\nname: unsafe-workflow\ndescription: Unsafe.\n"
+                "---\nname: unsafe-workflow\ncategory: Workflow\ndescription: Unsafe.\n"
                 "catalog_summary: Safe summary.\n---\n\n# Unsafe\n\n"
                 "## Dependencies\n\n| Skill | Source | Requirement | Purpose |\n"
                 "| --- | --- | --- | --- |\n"

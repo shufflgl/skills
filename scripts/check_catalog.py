@@ -13,24 +13,39 @@ from __future__ import annotations
 
 import sys
 
-from catalog_lib import catalog_rows, read_frontmatter, repo_root, skill_dirs
+from catalog_lib import (
+    catalog_rows,
+    read_categories,
+    read_frontmatter,
+    repo_root,
+    skill_dirs,
+)
 
 
 def main() -> int:
     root = repo_root()
     on_disk = skill_dirs(root)
     rows = catalog_rows(root)
+    categories = read_categories(root)
 
     missing_entry: list[str] = []
     missing_summary: list[str] = []
+    missing_category: list[str] = []
+    unknown_category: list[tuple[str, str]] = []
     mismatched: list[tuple[str, str, str]] = []
 
     for name in sorted(on_disk):
         frontmatter = read_frontmatter(root / name / "SKILL.md")
         summary = frontmatter.get("catalog_summary", "").strip()
+        category = frontmatter.get("category", "").strip()
 
         if not summary:
             missing_summary.append(name)
+        if not category:
+            missing_category.append(name)
+        elif category not in categories:
+            unknown_category.append((name, category))
+        if not summary:
             continue
 
         row = rows.get(name)
@@ -41,7 +56,14 @@ def main() -> int:
 
     stale = sorted(set(rows) - on_disk)
 
-    if not (missing_summary or missing_entry or mismatched or stale):
+    if not (
+        missing_summary
+        or missing_category
+        or unknown_category
+        or missing_entry
+        or mismatched
+        or stale
+    ):
         return 0
 
     if missing_summary:
@@ -51,6 +73,14 @@ def main() -> int:
         )
         for name in missing_summary:
             print(f"  - {name}", file=sys.stderr)
+    if missing_category:
+        print("error: these skills have no 'category' frontmatter field:", file=sys.stderr)
+        for name in missing_category:
+            print(f"  - {name}", file=sys.stderr)
+    if unknown_category:
+        print("error: these skills use categories not registered in categories.json:", file=sys.stderr)
+        for name, category in unknown_category:
+            print(f"  - {name}: {category}", file=sys.stderr)
     if missing_entry:
         print("error: these skills have no README catalog entry:", file=sys.stderr)
         for name in missing_entry:
