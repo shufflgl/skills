@@ -22,7 +22,9 @@ Apple Music library.
 
 - Accept exactly one `bilibili.com` or `b23.tv` video URL per invocation.
 - Save the finished audio file to
-  `/Users/mi/Library/Mobile Documents/com~apple~CloudDocs/Music`.
+  `~/Library/Mobile Documents/com~apple~CloudDocs/Music`.
+- Expand `~` to the active user's home directory at runtime before checking or
+  passing the destination to a dependency; never treat it as a literal path.
 - Keep the filename and embedded metadata produced by
   `$download-bilibili-audio`; do not rename, transcode, or retag the file during
   import.
