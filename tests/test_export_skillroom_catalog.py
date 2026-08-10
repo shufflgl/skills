@@ -24,7 +24,13 @@ class SkillroomCatalogExportTests(unittest.TestCase):
         skills = exporter.skill_records(ROOT, exporter.repo_url(ROOT))
         workflows = exporter.workflow_records(ROOT)
         self.assertEqual(len(skills), len(exporter.skill_dirs(ROOT)))
-        self.assertEqual(len(workflows), 1)
+        self.assertEqual(
+            {workflow["name"] for workflow in workflows},
+            {
+                "deploy-my-private-vps-proxy",
+                "download-bilibili-audio-to-apple-music",
+            },
+        )
         self.assertEqual(
             {skill["name"] for skill in skills},
             exporter.skill_dirs(ROOT),
