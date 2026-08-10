@@ -2,7 +2,7 @@
 name: deploy-my-private-vps-proxy
 category: Workflow
 description: Orchestrate my complete private proxy lifecycle from purchasing or receiving a VPS through hardened VLESS REALITY deployment, Apple client setup, safe VPN cutover, performance validation, credential backup, and reusable client artifacts. Use when I ask to build, rebuild, migrate, recover, benchmark, or package my personal VPS proxy setup.
-catalog_summary: Build my hardened private VPS proxy and finish with verified Apple clients, performance evidence, and protected reusable backups.
+catalog_summary: Select and build my hardened private VPS proxy, then finish with verified Apple clients, performance evidence, and protected reusable backups.
 ---
 
 # Deploy my private VPS proxy
@@ -21,8 +21,37 @@ repeatable client handoff.
 
 ## Defaults
 
-- Prefer an existing BandwagonHost Los Angeles VPS; if a purchase is required,
-  stop at the final purchase action for approval.
+- Select a United States West Coast VPS, preferably Los Angeles, because my
+  normal workloads combine a required US exit for Apple TV/F1 with interactive
+  AI and developer traffic from mainland China.
+- Treat network quality as the primary purchase criterion. Prefer stable
+  latency, low jitter, low packet loss, good three-carrier China routing, and
+  evening-peak consistency over excess CPU, RAM, disk, or advertised port
+  speed. A stable 100–200 Mbps path is more valuable than an unstable 1–10
+  Gbps port for these workloads.
+- Use roughly CNY 100–120 per month as the normal ceiling unless I specify a
+  different budget. Prefer a short initial billing period, such as monthly or
+  quarterly, until the route and target streaming service are verified.
+- Require at least one dedicated IPv4, enough memory for the chosen official
+  proxy daemon, and traffic suitable for 4K media. Treat 1 Gbps and roughly 1
+  TB per month as ample personal capacity, not as proof of China-facing speed.
+- Prefer current, in-stock China-optimized Los Angeles products such as
+  BandwagonHost CN2 GIA ECOMMERCE or DMIT LAX Premium when they fit the live
+  budget. Consider an ordinary BandwagonHost Basic or other Tier 1 product only
+  when cost is more important than evening-peak stability. Never infer the
+  network series from similar CPU/RAM labels or price alone.
+- Verify the exact product, location, network series, billing period, stock,
+  transfer allowance, port, IPv4 inclusion, refund terms, and current price on
+  official provider pages at purchase time. Product names, routes, prices, and
+  inventory are volatile and must not be reused from an older run.
+- Treat a VPS address as a datacenter IP. Do not buy a residential IP by
+  default; consider one only after the specific streaming service rejects the
+  verified US datacenter exit.
+- Use truthful billing and contact information matching the user and payment
+  method. Keep billing address selection separate from VPS datacenter location.
+- If a purchase is required, present the exact final SKU, location, network
+  series, billing period, recurring cost, and material caveats, then stop at
+  the final purchase action for approval.
 - Prefer Debian, VLESS over TCP, REALITY, `xtls-rprx-vision`, an official Xray
   or sing-box release, and port 443 unless current constraints require another
   design.
@@ -54,35 +83,59 @@ the approval gates or completion criteria.
 
 1. Preflight every dependency. If the required atomic skill is unavailable,
    explain the gap and stop unless I approve a capability-equivalent substitute.
-2. Resolve the provider service, region, OS, intended clients, current VPNs,
-   1Password access, and recovery route. Pass this inventory to
-   `$deploy-private-vps-proxy`.
-3. If provider-console interaction is needed and the optional browser skill is
+2. Resolve the required country, expected client locations and ISPs, AI and
+   developer workloads, streaming targets, traffic estimate, budget, billing
+   tolerance, intended clients, current VPNs, and preference for fixed versus
+   residential-class IP reputation.
+3. When no suitable VPS is already owned, research current official provider
+   product and checkout pages. Build a dated shortlist that compares exact
+   location, network series, China-routing claims, stock, billing period,
+   recurring price, IPv4, traffic, port, refund or cancellation constraints,
+   and known platform maturity warnings. Reject stale public pricing pages when
+   the live checkout reports different stock or terms.
+4. Rank the shortlist by the actual workload: first US location and route
+   stability, then loss and jitter risk, traffic allowance and IP suitability;
+   treat CPU, RAM and headline port speed as minimum-capacity checks. Explain
+   the trade-off between ordinary routing, optimized routing, shared airport
+   services, datacenter IPs, and residential IPs without promising permanent
+   streaming compatibility.
+5. Present one recommended purchase and at most two meaningful alternatives.
+   Normalize every price to the same monthly basis, identify whether the cost
+   premium buys routing rather than compute, and obtain approval at the final
+   checkout step. Record the exact purchased SKU and terms as the server
+   inventory.
+6. If provider-console interaction is needed and the optional browser skill is
    available, invoke it only to inspect or perform explicitly authorized
    service actions. Hand the verified VPS address and access details back to
    the atomic skill without exposing credentials in chat.
-4. Invoke `$deploy-private-vps-proxy` to benchmark the bare VPS, establish and
+7. Invoke `$deploy-private-vps-proxy` to benchmark the bare VPS before proxy
+   installation, establish and
    verify purpose-isolated SSH access, deploy VLESS REALITY, apply the
    low-privilege service model, configure systemd and firewall boundaries, and
    validate the live server layer by layer.
-5. Carry the verified canonical VLESS URI into an isolated localhost SOCKS
+8. Repeat latency, loss, jitter, route, and throughput checks during a relevant
+   evening-peak window when feasible. Distinguish provider route quality from
+   proxy configuration quality and retain the baseline for refund, migration,
+   or renewal decisions.
+9. Carry the verified canonical VLESS URI into an isolated localhost SOCKS
    test. Do not proceed to full-device routing until its HTTPS request and exit
    IP succeed.
-6. If macOS UI work is required and Computer Use is available, invoke
+10. If macOS UI work is required and Computer Use is available, invoke
    `$computer-use:computer-use` to import or update the SFM profile. Pass the
    validated client JSON from the atomic skill and require a full application
    reload after external JSON edits.
-7. Use the atomic skill's controlled VPN isolation sequence. Run local tests
+11. Use the atomic skill's controlled VPN isolation sequence. Run local tests
    automatically during the cutover and restore the known-good path in reverse
    order if DNS or HTTPS fails.
-8. Invoke the atomic skill's validation and benchmark stages. Record actual
+12. Invoke the atomic skill's validation and benchmark stages. Record actual
    exit IP, DNS result, HTTPS status, repeated timings, returned byte counts,
    download Mbps, upload Mbps, and material limitations.
-9. Generate the requested reusable client files with restrictive permissions.
+13. Generate the requested reusable client files with restrictive permissions.
    When 1Password backup is requested, retain the VLESS URI and verified
    sing-box JSON in one client item and verify semantic equality without
    revealing their values.
-10. Report the deployed architecture, security posture, active client state,
+14. Report the selected product and purchase rationale, deployed architecture,
+    security posture, active client state,
     measured performance, protected backup locations, recovery path, and any
     deferred Apple TV or router work.
 
@@ -90,6 +143,9 @@ the approval gates or completion criteria.
 
 - Confirm immediately before a purchase, plan change, reinstall, cancellation,
   or other consequential provider action.
+- Confirm the exact provider, SKU, datacenter location, network series, billing
+  period, recurring price, and payment-impacting options at the final checkout
+  step. Do not treat approval of a shortlist as approval to buy.
 - Confirm immediately before changing SSH authentication, firewall access,
   system users, capabilities, systemd security boundaries, or active network
   extensions.
@@ -104,6 +160,12 @@ the approval gates or completion criteria.
 ## Completion criteria
 
 - Key-only SSH and a provider-console recovery path are both accounted for.
+- When a purchase was required, the decision record contains the dated official
+  source, exact SKU, location, network series, stock status, billing period,
+  recurring cost, intended routing benefit, and datacenter-IP streaming caveat.
+- A pre-proxy network baseline records latency, packet loss or jitter evidence,
+  route, and throughput; evening-peak evidence is included when feasible or
+  explicitly deferred.
 - The proxy daemon is active under the intended low-privilege user, its config
   passes syntax validation, its listener is owned as expected, and its firewall
   exposure is verified.
@@ -124,6 +186,13 @@ the approval gates or completion criteria.
 
 - Preserve SSH, provider-console access, the last known-good server config, and
   the last known-good client connection throughout the run.
+- If live inventory or pricing invalidates every shortlisted product, do not
+  downgrade silently to an ordinary route or exceed the budget. Refresh the
+  shortlist, explain the changed trade-off, and request a new decision.
+- If the purchased route or target streaming service fails its initial
+  acceptance checks, preserve the raw evidence and prioritize any available
+  refund, cancellation, migration, or short-billing exit window before making
+  unrelated server changes.
 - Back up live files before mutation. Restore in reverse order when a service
   restart, DNS change, TUN cutover, or firewall change fails.
 - If isolated SOCKS fails, stop client TUN work and reconcile the live server
