@@ -66,5 +66,5 @@ may be skipped only as described by the workflow's failure handling.
 
 | Workflow | What it automates |
 | --- | --- |
-| [Download Bilibili Audio to Apple Music](./download-bilibili-audio-to-apple-music/) | Download verified Bilibili audio to the personal iCloud Music folder and import it into the Apple Music library. |
+| [Download Bilibili Audio to Apple Music](./download-bilibili-audio-to-apple-music/) | Download verified Bilibili audio, prepare its container for Apple Music, and verify cloud-library eligibility. |
 | [Deploy My Private VPS Proxy](./deploy-my-private-vps-proxy/) | Select and build my hardened private VPS proxy, then finish with verified Apple clients, performance evidence, and protected reusable backups. |

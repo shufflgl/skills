@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prepare M4A for Apple Music"
+  short_description: "Make M4A containers cloud-library compatible"
+  default_prompt: "Use $prepare-m4a-for-apple-music to inspect and safely remux this M4A for Apple Music cloud upload."
