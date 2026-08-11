@@ -10,6 +10,7 @@
 | [**Download Bilibili Audio**](./download-bilibili-audio/) | Atomically turn Bilibili videos into title-named, source-quality audio files with verified metadata and official-or-generated cover art. |
 | [**Deploy Private VPS Proxy**](./deploy-private-vps-proxy/) | Securely deploy, validate, troubleshoot, and back up a private VLESS REALITY VPS proxy. |
 | [**Issue Workspace Manager**](./issue/) | Manage task sessions, branches, worktrees, and private project rules across Claude Code and Codex. |
+| [**Prepare M4A for Apple Music**](./prepare-m4a-for-apple-music/) | Inspect and stream-copy M4A files into Apple Music-compatible containers while preserving audio, tags, and cover art. |
 | [**Portable Task Handoff**](./handoff/) | Transfer unfinished work safely between sessions, machines, Codex, and Claude Code. |
 | [**Replace Book Cover**](./replace-book-cover/) | Research a book, create a content-faithful cover with GPT Image 2, and safely replace the cover in an EPUB or PDF copy. |
 | [**Summarize Video to Obsidian**](./summarize-video-to-obsidian/) | Turn a Bilibili or YouTube video into a faithful, source-linked Obsidian knowledge note with summaries, timestamps, and key ideas. |
