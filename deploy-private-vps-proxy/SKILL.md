@@ -1,8 +1,8 @@
 ---
 name: deploy-private-vps-proxy
 category: Workflow
-description: Deploy, secure, validate, back up, reuse, or troubleshoot a private VPS network proxy using VLESS with REALITY and Xray or sing-box. Use for the complete lifecycle from purchasing or inspecting a VPS, establishing SSH access, storing credentials in 1Password, running the proxy under a dedicated low-privilege user, configuring systemd and firewall rules, generating portable client artifacts, configuring SFM or other sing-box clients on Apple devices, diagnosing TUN and DNS failures, verifying the actual exit IP, and measuring latency and throughput.
-catalog_summary: Securely deploy, validate, troubleshoot, and back up a private VLESS REALITY VPS proxy.
+description: Deploy, secure, validate, back up, reuse, route, or troubleshoot a private VPS network proxy using VLESS with REALITY and Xray or sing-box. Use for the complete lifecycle from purchasing or inspecting a VPS, establishing SSH access, storing credentials in 1Password, running the proxy under a dedicated low-privilege user, configuring systemd and firewall rules, generating portable client artifacts and cross-client routing rules, configuring TUN or transparent routing, diagnosing client and DNS failures, verifying the actual exit IP, and measuring latency and throughput.
+catalog_summary: Securely deploy, route, validate, troubleshoot, and back up a private VLESS REALITY VPS proxy.
 ---
 
 # Deploy a private VPS proxy
@@ -128,7 +128,20 @@ Run `scripts/verify-proxy.sh` against the active system route or a supplied SOCK
 
 Reject misleading results such as a supposed 100 MiB test that returned only one byte. Distinguish bytes/s, MiB/s and Mbps explicitly.
 
-### 9. Back up and hand off
+### 9. Maintain portable routing policy
+
+Keep routing policy separate from node credentials. Read
+[references/routing-rules.md](references/routing-rules.md), copy the bundled
+policy to a protected working directory, and use
+`scripts/generate-routing-rules.rb` to produce sing-box, v2rayN/Xray, and
+Mihomo fragments from one source.
+
+Require the live proxy server address at generation time so every output
+contains a direct bypass that prevents a TUN loop. Preserve personal overrides
+ahead of mainland China rule sets and use the proxy as the final fallback.
+Apply generated fragments only after backing up the client configuration.
+
+### 10. Back up and hand off
 
 Deliver separately, all with restrictive permissions:
 
@@ -156,4 +169,5 @@ Report completion only when evidence shows:
 - the final client resolves DNS and reaches HTTPS;
 - the active exit IP is confirmed;
 - backup artifacts are validated and protected;
+- generated routing fragments share one validated policy source and preserve the proxy-server bypass;
 - recovery instructions are clear.

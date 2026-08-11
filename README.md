@@ -8,7 +8,7 @@
 | [**Check EPUB Quality**](./check-epub-quality/) | Inspect a provided EPUB for integrity, completeness signals, metadata, presentation resources, DRM, language, and inserted advertising. |
 | [**Create Personal Workflow**](./create-workflow/) | Create validated personal workflows that orchestrate existing skills without duplicating their atomic procedures. |
 | [**Download Bilibili Audio**](./download-bilibili-audio/) | Atomically turn Bilibili videos into title-named, source-quality audio files with verified metadata and official-or-generated cover art. |
-| [**Deploy Private VPS Proxy**](./deploy-private-vps-proxy/) | Securely deploy, validate, troubleshoot, and back up a private VLESS REALITY VPS proxy. |
+| [**Deploy Private VPS Proxy**](./deploy-private-vps-proxy/) | Securely deploy, route, validate, troubleshoot, and back up a private VLESS REALITY VPS proxy. |
 | [**Issue Workspace Manager**](./issue/) | Manage task sessions, branches, worktrees, and private project rules across Claude Code and Codex. |
 | [**Portable Task Handoff**](./handoff/) | Transfer unfinished work safely between sessions, machines, Codex, and Claude Code. |
 | [**Replace Book Cover**](./replace-book-cover/) | Research a book, create a content-faithful cover with GPT Image 2, and safely replace the cover in an EPUB or PDF copy. |

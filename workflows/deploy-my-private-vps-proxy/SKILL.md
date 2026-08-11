@@ -72,6 +72,9 @@ repeatable client handoff.
   and client logs prove the new path works.
 - Finish with separate protected VLESS URI, sing-box JSON, manual parameters,
   and Clash Meta YAML artifacts when reusable files are requested.
+- Maintain one credential-free bypass-mainland routing policy and generate
+  sing-box, v2rayN/Xray, and Mihomo fragments from it. Keep device and process
+  rules as platform-specific overlays.
 - Treat AI/development traffic and US media or Apple TV routing as intended
   workloads, but verify the actual target service rather than assuming an exit
   IP guarantees application compatibility.
@@ -134,7 +137,12 @@ the approval gates or completion criteria.
    When 1Password backup is requested, retain the VLESS URI and verified
    sing-box JSON in one client item and verify semantic equality without
    revealing their values.
-14. Report the selected product and purchase rationale, deployed architecture,
+14. Generate cross-client routing fragments from the protected personal policy.
+   Require a proxy-server bypass, place personal overrides before mainland
+   China rule sets, keep the final fallback on the proxy, and validate a
+   domestic site, an AI service, DNS, UDP, IPv6, and local-network access before
+   replacing a known-good routing policy.
+15. Report the selected product and purchase rationale, deployed architecture,
     security posture, active client state,
     measured performance, protected backup locations, recovery path, and any
     deferred Apple TV or router work.
@@ -179,6 +187,8 @@ the approval gates or completion criteria.
   files.
 - Requested portable artifacts pass their relevant syntax checks and use
   restrictive permissions.
+- Generated routing fragments share one credential-free source policy, retain
+  the proxy-server bypass, and have a documented rollback copy.
 - The user receives a tested recovery path and a clear statement of any
   unverified media, Apple TV, router, or multi-VPN behavior.
 
