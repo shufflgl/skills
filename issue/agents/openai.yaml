@@ -1,4 +1,4 @@
 interface:
   display_name: "Issue Workspace Manager"
-  short_description: "Manage sessions, branches, worktrees, and local rules"
-  default_prompt: "Use $issue to manage the current task session, branch, worktree, and shared local project rules."
+  short_description: "Manage task states, branches, worktrees, and local rules"
+  default_prompt: "Use $issue to manage the current task state, branch, worktree, and shared local project rules."
