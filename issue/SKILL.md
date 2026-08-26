@@ -1,8 +1,8 @@
 ---
 name: issue
 category: Workflow
-description: Manage task sessions, Git branches, Git worktrees, and private project-local rules for development work. Use when starting or resuming a task, associating a Claude Code or Codex session with a branch/worktree, sharing AGENTS.local.md or CLAUDE.local.md across worktrees, listing task status, marking work done or abandoned, reconciling recorded state with Git, or safely cleaning up task resources.
-catalog_summary: Manage task sessions, branches, worktrees, and private project rules across Claude Code and Codex.
+description: Manage task states, sessions, Git branches, Git worktrees, and private project-local rules for development work. Use when starting, pausing, resuming, completing, abandoning, listing, reconciling, or cleaning up tasks and their associated resources.
+catalog_summary: Manage task states, sessions, branches, worktrees, and private project rules across Claude Code and Codex.
 ---
 
 # Issue
@@ -47,7 +47,12 @@ Keep only:
 }
 ```
 
-Valid task states are `active`, `done`, and `abandoned`. Valid session states are `active`, `stale`, and `archived`.
+Valid task states are `active`, `paused`, `done`, and `abandoned`. Valid session states are `active`, `stale`, and `archived`.
+
+- `active`: work is currently in progress or ready to continue.
+- `paused`: work is intentionally retained but not currently being worked on. Preserve its branch and worktree associations, and do not treat it as a cleanup candidate.
+- `done`: the task is complete.
+- `abandoned`: the user explicitly chose not to complete the task.
 
 Use the current client's stable session or task reference when it is available. Otherwise record a user-recognizable session name. Never invent an identifier or claim that a client session was archived or deleted when the client did not confirm it.
 
@@ -94,10 +99,22 @@ When resuming a task:
 
 1. Locate its recorded branch and worktree.
 2. Verify both against Git.
-3. Add or reactivate the current session.
-4. Continue work in the recorded worktree.
+3. If the task is `paused`, change it to `active`.
+4. Add or reactivate the current session.
+5. Continue work in the recorded worktree.
 
 Do not create another branch or worktree merely because a new session was opened.
+
+## Pause and resume
+
+When the user asks to pause a task:
+
+1. Reconcile the registry with Git.
+2. Set the task state to `paused`.
+3. Mark its currently active session entries `stale` unless the client confirms they were archived.
+4. Preserve the task's branch and worktree. Do not remove resources merely because the task was paused.
+
+When the user asks to resume a paused task, set it back to `active` and follow the normal resume workflow. A paused task remains an existing task for branch and worktree uniqueness checks.
 
 ## Share private project rules across worktrees
 
@@ -134,6 +151,8 @@ When asked for status or cleanup candidates, show a compact table in the convers
 - cleanup blockers, if any.
 
 Do not write this view to disk.
+
+Do not present `paused` tasks as actively developing. In cleanup views, identify them as retained and not eligible for cleanup until the user marks them `done` or `abandoned`.
 
 ## Mark completion
 
