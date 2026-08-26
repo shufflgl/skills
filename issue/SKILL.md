@@ -1,13 +1,13 @@
 ---
 name: issue
 category: Workflow
-description: Manage task states, sessions, Git branches, Git worktrees, and private project-local rules for development work. Use when starting, pausing, resuming, completing, abandoning, listing, reconciling, or cleaning up tasks and their associated resources.
-catalog_summary: Manage task states, sessions, branches, worktrees, and private project rules across Claude Code and Codex.
+description: Manage task states, Git branches, Git worktrees, and private project-local rules for development work. Use when starting, pausing, resuming, completing, abandoning, listing, reconciling, or cleaning up tasks and their associated resources.
+catalog_summary: Manage task states, branches, worktrees, and private project rules across Claude Code and Codex.
 ---
 
 # Issue
 
-Treat a task as the stable identity. Bind each task to exactly one branch and one worktree; allow multiple Claude Code or Codex sessions to reference that task.
+Treat a task as the stable identity. Bind each task to exactly one branch and one worktree. Do not track Claude Code or Codex sessions: their lifecycle is external, changes independently, and is not reliable registry state.
 
 Do not create reports, issue-tracker records, handoff documents, or a separate CLI.
 
@@ -34,29 +34,22 @@ Keep only:
       "status": "active",
       "base_branch": "main",
       "branch": "task/<task-id>",
-      "worktree": "<absolute-local-path>",
-      "sessions": [
-        {
-          "client": "codex",
-          "ref": "<client-session-reference>",
-          "status": "active"
-        }
-      ]
+      "worktree": "<absolute-local-path>"
     }
   }
 }
 ```
 
-Valid task states are `active`, `paused`, `done`, and `abandoned`. Valid session states are `active`, `stale`, and `archived`.
+Valid task states are `active`, `paused`, `done`, and `abandoned`.
 
 - `active`: work is currently in progress or ready to continue.
 - `paused`: work is intentionally retained but not currently being worked on. Preserve its branch and worktree associations, and do not treat it as a cleanup candidate.
 - `done`: the task is complete.
 - `abandoned`: the user explicitly chose not to complete the task.
 
-Use the current client's stable session or task reference when it is available. Otherwise record a user-recognizable session name. Never invent an identifier or claim that a client session was archived or deleted when the client did not confirm it.
-
 Do not store secrets, chat transcripts, task reports, or code summaries.
+
+For backward compatibility, remove legacy `sessions` fields the next time a task entry is updated. Session state must never affect listing, resuming, completion, or cleanup decisions.
 
 ## Reconcile before changing state
 
@@ -68,7 +61,7 @@ git branch --list
 git status --porcelain=v1 --untracked-files=all
 ```
 
-Treat Git as authoritative for existing branches, worktrees, current branch, and file changes. Treat the registry as authoritative only for task and session associations.
+Treat Git as authoritative for existing branches, worktrees, current branch, and file changes. Treat the registry as authoritative only for task state and branch/worktree associations.
 
 - If a recorded worktree is missing, clear its path but retain the task.
 - If a recorded branch is missing, stop and tell the user.
@@ -93,15 +86,14 @@ When starting a new task:
 1. Resolve a short task ID from the user's name.
 2. Reuse an existing matching branch or worktree when safe.
 3. Otherwise create one branch and one worktree only when the user asked to start or create the task.
-4. Record the branch, worktree, base branch, and current session.
+4. Record the branch, worktree, and base branch.
 
 When resuming a task:
 
 1. Locate its recorded branch and worktree.
 2. Verify both against Git.
 3. If the task is `paused`, change it to `active`.
-4. Add or reactivate the current session.
-5. Continue work in the recorded worktree.
+4. Continue work in the recorded worktree.
 
 Do not create another branch or worktree merely because a new session was opened.
 
@@ -111,8 +103,7 @@ When the user asks to pause a task:
 
 1. Reconcile the registry with Git.
 2. Set the task state to `paused`.
-3. Mark its currently active session entries `stale` unless the client confirms they were archived.
-4. Preserve the task's branch and worktree. Do not remove resources merely because the task was paused.
+3. Preserve the task's branch and worktree. Do not remove resources merely because the task was paused.
 
 When the user asks to resume a paused task, set it back to `active` and follow the normal resume workflow. A paused task remains an existing task for branch and worktree uniqueness checks.
 
@@ -147,7 +138,6 @@ When asked for status or cleanup candidates, show a compact table in the convers
 - task ID and task state;
 - branch;
 - worktree existence;
-- active, stale, and archived session counts;
 - cleanup blockers, if any.
 
 Do not write this view to disk.
@@ -158,7 +148,7 @@ Do not present `paused` tasks as actively developing. In cleanup views, identify
 
 Mark a task `done` only when the user says it is complete or the current implementation request has been completed and verified. Mark it `abandoned` only on explicit user intent.
 
-Marking a task complete does not delete its sessions, branch, or worktree.
+Marking a task complete does not delete its branch or worktree.
 
 ## Clean up safely
 
@@ -177,7 +167,6 @@ Allow removal only when:
 - no tracked or untracked changes remain;
 - ignored/excluded contents contain only clearly regenerable caches, dependencies, or build output;
 - the branch is merged into the recorded base branch, or the user explicitly confirms abandonment;
-- no session remains `active`.
 
 Common regenerable directories include `node_modules`, `.next`, `dist`, `build`, `target`, and `__pycache__`. Any other ignored or excluded file is a blocker unless the user explicitly classifies it as disposable. Treat `.env*`, local databases, scratch data, fixtures, and unknown files as valuable by default.
 
@@ -189,8 +178,6 @@ git merge-base --is-ancestor <branch> <base-branch>
 
 A failed ancestry check may be a squash or rebase merge; do not infer that it is safe. Require confirmation from an available hosting provider or the user.
 
-Archive or delete a client session only when the user requested session cleanup and the current client exposes a supported operation. If it does not, mark the entry `stale` and identify the session for manual cleanup.
-
-After confirmed session archival, worktree removal, or branch deletion, update the registry. Remove the task entry only when all associated resources are gone.
+After worktree removal or branch deletion, update the registry. Remove the task entry only when all associated resources are gone.
 
 Never run `git worktree remove --force`, `git branch -D`, or an equivalent destructive operation without explicit user authorization for the exact target.
