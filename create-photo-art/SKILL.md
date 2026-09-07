@@ -1,30 +1,37 @@
 ---
 name: create-photo-art
 category: Media
-description: Transform reference photos into finished 3:4 artwork using a user-selected style from an extensible style catalog. Use when a user asks for photo-based art, an editorial poster, an art postcard, a photo-and-illustration composition, or another supported visual treatment.
-catalog_summary: Turn reference photos into polished 3:4 artwork using a user-selected style from an extensible visual-style catalog.
+description: Create polished artwork from reference photos or text briefs using a user-selected visual style, creation mode, and aspect ratio. Use for photo-integrated compositions, pure art, editorial posters, art postcards, social graphics, wallpapers, prints, and other supported visual treatments.
+catalog_summary: Create photo-integrated or pure artwork in a chosen visual style and aspect ratio for social, screen, editorial, or print use.
 ---
 
 # Create photo art
 
-Create one finished artwork per reference photo in the style the user explicitly chooses. Preserve the recognizable subject and the source photograph wherever the selected style requires photographic fidelity.
+Create finished artwork from reference photos, text briefs, or both. Let the user decide whether the source photo appears in the result, which registered style to use, and which aspect ratio fits the destination.
 
-## Select a style before creating
+## Gather the creative choices
 
-1. Require at least one accessible reference photo. If none is available, ask the user to attach it.
-2. Read [references/styles/index.md](references/styles/index.md) and present its numbered style choices with their short descriptions.
-3. Ask the user to choose one style before generating or editing any image. Do not infer a style from the photo, silently default to one, or combine styles. If the user already made an unambiguous selection in the current request, treat that as the required choice and do not ask again.
-4. After selection, read only the chosen style file. Follow its composition, typography, palette, exclusions, and verification requirements.
-5. Accept optional user text or metadata only where the chosen style supports it. Never invent a place, date, title meaning, or factual detail that is not supported by the photo or the user's input.
+Before generating or editing, obtain explicit choices for all three dimensions below. Ask for only the choices the user has not already made unambiguously.
+
+1. **Creation mode**
+   - **Photo-integrated:** show the original photograph as a distinct photographic region and pair it with the selected artistic treatment. Require an accessible reference photo.
+   - **Art-only:** do not show, reproduce, inset, collage, or frame the original photograph anywhere in the result. Use an accessible photo as visual reference when supplied, or work from a sufficiently clear text brief. If neither exists, ask for a photo or a description of the subject, setting, mood, and desired palette.
+2. **Visual style:** read [references/styles/index.md](references/styles/index.md), present its numbered choices with short descriptions, and ask the user to choose one. Do not infer, default, or combine styles. After selection, read only the chosen style file.
+3. **Aspect ratio or destination:** read [references/aspect-ratios.md](references/aspect-ratios.md). If the user names a ratio, use it. If the user names only a destination, recommend the closest registered ratio and confirm it before generating. Otherwise present the concise ratio menu and ask the user to choose.
+
+Accept optional user text or metadata only where the chosen style supports it. Never invent a place, date, title meaning, or factual detail not supported by the reference or brief.
 
 ## Create and deliver
 
-- Use the available image-generation or image-editing tool. Preserve photographic regions through source-image editing or deterministic compositing when practical instead of regenerating them.
-- Treat every uploaded photo as a separate input and return one independent 3:4 portrait artwork per photo. Never make a multi-photo collage unless a future registered style explicitly requires one.
+- Use the available image-generation or image-editing tool. In photo-integrated mode, preserve photographic regions through source-image editing or deterministic compositing when practical instead of regenerating them. In art-only mode, inspect the result to ensure no original-photo region remains.
+- Treat every uploaded photo as a separate input and return one independent artwork per photo. Never make a multi-photo collage unless a future registered style explicitly requires one.
 - Use the same selected style for all photos in one request unless the user assigns styles per photo.
+- Render at the selected aspect ratio. The ratio rules override any legacy fixed-canvas wording, while the chosen style controls the visual language and internal hierarchy.
 - Keep generated text short. Render critical typography during compositing when possible, then inspect spelling, duplication, placement, and legibility at full resolution.
 - Inspect every result against the selected style file. Return the finished image or images and briefly identify the applied style and any optional metadata that was used or omitted.
 
 ## Extend the style catalog
 
-To add a style, create one focused file under `references/styles/` and add one numbered entry to [references/styles/index.md](references/styles/index.md). Give the style a stable ID, distinctive user-facing name, short selection description, complete composition rules, exclusions, and a verification checklist. Keep shared workflow rules here and style-specific visual direction only in the style file. Do not renumber existing style IDs.
+To add a style, create one focused file under `references/styles/` and add one numbered entry to [references/styles/index.md](references/styles/index.md). Give the style a stable ID, distinctive user-facing name, short selection description, instructions for both creation modes, exclusions, and a verification checklist. Keep shared workflow and ratio rules outside style files. Do not renumber existing style IDs.
+
+To add a ratio, append a stable entry to [references/aspect-ratios.md](references/aspect-ratios.md) with orientation, best-fit destinations, and adaptation guidance. Do not remove or silently redefine an existing ratio.

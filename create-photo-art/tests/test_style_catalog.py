@@ -11,6 +11,9 @@ ENTRY_PATTERN = re.compile(
     r"^(\d+)\. \*\*(.+?)\*\* .+?\[([^]]+\.md)\]\(([^)]+\.md)\)",
     re.MULTILINE,
 )
+RATIO_PATTERN = re.compile(
+    r"^\| `(\d+:\d+)` \| ([^|]+) \| ([^|]+) \|$", re.MULTILINE
+)
 
 
 class StyleCatalogTests(unittest.TestCase):
@@ -28,9 +31,23 @@ class StyleCatalogTests(unittest.TestCase):
         for number, name, _, target in ENTRY_PATTERN.findall(catalog):
             style = (STYLE_ROOT / target).read_text(encoding="utf-8")
             self.assertTrue(style.startswith(f"# Style {number}: {name}\n"), target)
+            self.assertIn("## Creation modes", style, target)
             self.assertIn("## Composition", style, target)
             self.assertIn("## Exclusions", style, target)
             self.assertIn("## Verify", style, target)
+
+    def test_ratio_catalog_covers_square_portrait_and_landscape_outputs(self) -> None:
+        ratios = (SKILL_ROOT / "references" / "aspect-ratios.md").read_text(
+            encoding="utf-8"
+        )
+        entries = RATIO_PATTERN.findall(ratios)
+        identifiers = [identifier for identifier, _, _ in entries]
+        self.assertEqual(len(identifiers), len(set(identifiers)))
+        self.assertGreaterEqual(len(identifiers), 5)
+        self.assertIn("1:1", identifiers)
+        dimensions = [tuple(map(int, value.split(":"))) for value in identifiers]
+        self.assertTrue(any(width < height for width, height in dimensions))
+        self.assertTrue(any(width > height for width, height in dimensions))
 
 
 if __name__ == "__main__":

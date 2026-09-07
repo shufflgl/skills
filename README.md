@@ -4,7 +4,7 @@
 
 | Skill | What it helps with |
 | --- | --- |
-| [**Create Photo Art**](./create-photo-art/) | Turn reference photos into polished 3:4 artwork using a user-selected style from an extensible visual-style catalog. |
+| [**Create Photo Art**](./create-photo-art/) | Create photo-integrated or pure artwork in a chosen visual style and aspect ratio for social, screen, editorial, or print use. |
 | [**Beautify GitHub Repository**](./beautify-github-repo/) | Audit and polish a repository, especially its README, with restrained visuals and community-standard quality tools. |
 | [**Check EPUB Quality**](./check-epub-quality/) | Inspect a provided EPUB for integrity, completeness signals, metadata, presentation resources, DRM, language, and inserted advertising. |
 | [**Create Personal Workflow**](./create-workflow/) | Create validated personal workflows that orchestrate existing skills without duplicating their atomic procedures. |
