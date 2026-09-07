@@ -4,6 +4,7 @@
 
 | Skill | What it helps with |
 | --- | --- |
+| [**Create Art Postcard**](./create-art-postcard/) | Turn a reference photo into a restrained 3:4 editorial postcard with torn paper, ample ivory space, and a small screen-print illustration. |
 | [**Beautify GitHub Repository**](./beautify-github-repo/) | Audit and polish a repository, especially its README, with restrained visuals and community-standard quality tools. |
 | [**Check EPUB Quality**](./check-epub-quality/) | Inspect a provided EPUB for integrity, completeness signals, metadata, presentation resources, DRM, language, and inserted advertising. |
 | [**Create Personal Workflow**](./create-workflow/) | Create validated personal workflows that orchestrate existing skills without duplicating their atomic procedures. |
@@ -14,7 +15,6 @@
 | [**Portable Task Handoff**](./handoff/) | Transfer unfinished work safely between sessions, machines, Codex, and Claude Code. |
 | [**Replace Book Cover**](./replace-book-cover/) | Research a book, create a content-faithful cover with GPT Image 2, and safely replace the cover in an EPUB or PDF copy. |
 | [**Summarize Video to Obsidian**](./summarize-video-to-obsidian/) | Turn a Bilibili or YouTube video into a faithful, source-linked Obsidian knowledge note with summaries, timestamps, and key ideas. |
-| [**Create Art Postcard**](./create-art-postcard/) | Turn a reference photo into a restrained 3:4 editorial postcard with torn paper, ample ivory space, and a small screen-print illustration. |
 
 ## Personal workflows
 
