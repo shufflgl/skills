@@ -6,6 +6,7 @@
 | --- | --- |
 | [**Beautify GitHub Repository**](./beautify-github-repo/) | Audit and polish a repository, especially its README, with restrained visuals and community-standard quality tools. |
 | [**Check EPUB Quality**](./check-epub-quality/) | Inspect a provided EPUB for integrity, completeness signals, metadata, presentation resources, DRM, language, and inserted advertising. |
+| [**Create Art Postcard**](./create-art-postcard/) | Turn a reference photo into a restrained 3:4 editorial postcard with torn paper, ample ivory space, and a small screen-print illustration. |
 | [**Create Personal Workflow**](./create-workflow/) | Create validated personal workflows that orchestrate existing skills without duplicating their atomic procedures. |
 | [**Download Bilibili Audio**](./download-bilibili-audio/) | Atomically turn Bilibili videos into title-named, source-quality audio files with verified metadata and official-or-generated cover art. |
 | [**Deploy Private VPS Proxy**](./deploy-private-vps-proxy/) | Securely deploy, validate, troubleshoot, and back up a private VLESS REALITY VPS proxy. |
