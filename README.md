@@ -4,6 +4,7 @@
 
 | Skill | What it helps with |
 | --- | --- |
+| [**Create Art Postcard**](./create-art-postcard/) | Turn a reference photo into a restrained 3:4 editorial postcard with torn paper, ample ivory space, and a small screen-print illustration. |
 | [**Beautify GitHub Repository**](./beautify-github-repo/) | Audit and polish a repository, especially its README, with restrained visuals and community-standard quality tools. |
 | [**Check EPUB Quality**](./check-epub-quality/) | Inspect a provided EPUB for integrity, completeness signals, metadata, presentation resources, DRM, language, and inserted advertising. |
 | [**Create Art Postcard**](./create-art-postcard/) | Turn a reference photo into a restrained 3:4 editorial postcard with torn paper, ample ivory space, and a small screen-print illustration. |

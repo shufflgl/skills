@@ -25,7 +25,7 @@ Create a flat, finished postcard image from the user's reference photo. Preserve
 6. Extract the illustration palette from the photograph and reduce it to two to four muted, low-saturation colors. Do not introduce unrelated accent colors.
 7. Limit the illustration to roughly half of the available lower-section height and surround it with generous ivory negative space.
 8. Place one subtle, distressed blue-black circular postal cancellation on the right side of the torn boundary so it bridges the photographic and paper regions. Keep it subordinate to the subject and do not add a postage stamp.
-9. If and only if the user supplied both place and date, add one bottom caption in the generic pattern `PLACE · DATE`, using the supplied values without inventing details. Add a discreet localized equivalent of `Photographed by SHUFFLGL` as the sole watermark.
+9. If and only if the user supplied both place and date, add one bottom caption in the generic pattern `PLACE · DATE`, using the supplied values without inventing details. Add `Photographed by SHUFFLGL` as the sole watermark. Render it in an elegant English calligraphic script with a light weight, low contrast, and restrained opacity so it remains faint and unobtrusive.
 
 ## Render safely
 
@@ -40,4 +40,4 @@ Do not add outer borders, coordinates, three-dimensional mockups, heavy drop sha
 
 ## Verify and deliver
 
-Inspect the final image at full size. Confirm the 3:4 portrait ratio, faithful upper photo, approximately 55/45 vertical balance, fibrous torn edge, clean ivory separation, recognizable small illustration, two-to-four-color palette, single boundary cancellation, correct subject label, and absence of forbidden elements. Confirm that the place/date caption is either complete or entirely absent. Return the finished image and briefly state which subject, palette, place, and date were used or omitted.
+Inspect the final image at full size. Confirm the 3:4 portrait ratio, faithful upper photo, approximately 55/45 vertical balance, fibrous torn edge, clean ivory separation, recognizable small illustration, two-to-four-color palette, single boundary cancellation, correct subject label, faint English-script watermark, and absence of forbidden elements. Confirm that the place/date caption is either complete or entirely absent. Return the finished image and briefly state which subject, palette, place, and date were used or omitted.
