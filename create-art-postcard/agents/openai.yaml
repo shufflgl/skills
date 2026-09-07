@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Art Postcard"
+  short_description: "Turn reference photos into editorial art postcards"
+  default_prompt: "Use $create-art-postcard to turn this reference photo into a portrait editorial art postcard."
