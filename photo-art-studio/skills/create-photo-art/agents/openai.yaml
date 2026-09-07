@@ -1,4 +1,0 @@
-interface:
-  display_name: "Create Photo Art"
-  short_description: "Create art in a chosen style, mode, and ratio"
-  default_prompt: "Use $create-photo-art to create photo-integrated or pure artwork in a style and aspect ratio I choose."
