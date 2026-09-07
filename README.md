@@ -16,6 +16,12 @@
 | [**Replace Book Cover**](./replace-book-cover/) | Research a book, create a content-faithful cover with GPT Image 2, and safely replace the cover in an EPUB or PDF copy. |
 | [**Summarize Video to Obsidian**](./summarize-video-to-obsidian/) | Turn a Bilibili or YouTube video into a faithful, source-linked Obsidian knowledge note with summaries, timestamps, and key ideas. |
 
+## ChatGPT plugins
+
+| Plugin | What it provides |
+| --- | --- |
+| [**Photo Art Studio**](./photo-art-studio/) | Packages Create Photo Art as a ready-to-install visual-creation plugin with a purpose-built logo. |
+
 ## Personal workflows
 
 Strongly personalized, non-distributable skill orchestrations live in

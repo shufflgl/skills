@@ -1,0 +1,38 @@
+{
+  "name": "photo-art-studio",
+  "version": "0.1.0",
+  "description": "Create photo-integrated or pure artwork in selectable visual styles and aspect ratios.",
+  "author": {
+    "name": "Shufflgl",
+    "url": "https://github.com/shufflgl"
+  },
+  "homepage": "https://github.com/shufflgl/skills/tree/main/photo-art-studio",
+  "repository": "https://github.com/shufflgl/skills",
+  "keywords": [
+    "art",
+    "image-generation",
+    "photo",
+    "poster",
+    "visual-design"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Photo Art Studio",
+    "shortDescription": "Turn photos or ideas into tailored art",
+    "longDescription": "Create photo-integrated or pure artwork from reference images or text briefs. Choose among extensible visual styles and ratios suited to social media, mobile screens, editorial layouts, and print.",
+    "developerName": "Shufflgl",
+    "category": "Design",
+    "capabilities": [
+      "Image generation",
+      "Image editing"
+    ],
+    "defaultPrompt": [
+      "Create pure artwork from my idea.",
+      "Turn my photo into a styled poster.",
+      "Help me choose a style and aspect ratio."
+    ],
+    "brandColor": "#173442",
+    "composerIcon": "./assets/logo.png",
+    "logo": "./assets/logo.png"
+  }
+}
