@@ -23,6 +23,8 @@ test("server-renders the repository-backed skill catalog", async () => {
   assert.match(html, /Workflows/);
   assert.match(html, /Download Bilibili Audio to Apple Music/);
   assert.match(html, /Install/);
+  assert.match(html, /catalog-icons\/skills\/download-bilibili-audio\.png/);
+  assert.match(html, /catalog-icons\/workflows\/download-bilibili-audio-to-apple-music\.png/);
   assert.match(html, /https:\/\/github.com\/shufflgl\/skills/);
   assert.doesNotMatch(html, /Required checks|Repository Console|Workflow dependencies|Artifact inventory/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/);

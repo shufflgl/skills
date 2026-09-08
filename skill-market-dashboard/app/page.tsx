@@ -203,9 +203,19 @@ Install it using the standard installation method for the current AI client. Con
         <div className="skill-grid">
           {visibleItems.map((item) => (
             <article className="skill-card" key={`${item.kind}:${item.name}`}>
-              <div className="card-labels">
-                <span className="item-kind">{item.kind}</span>
-                <span className="skill-category">{item.category}</span>
+              <div className="card-header">
+                <img
+                  className="skill-icon"
+                  src={item.iconUrl}
+                  alt=""
+                  width="64"
+                  height="64"
+                  loading="lazy"
+                />
+                <div className="card-labels">
+                  <span className="item-kind">{item.kind}</span>
+                  <span className="skill-category">{item.category}</span>
+                </div>
               </div>
               <h3>{item.displayName}</h3>
               <p>{item.summary}</p>

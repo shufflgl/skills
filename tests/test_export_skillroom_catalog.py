@@ -35,6 +35,9 @@ class SkillroomCatalogExportTests(unittest.TestCase):
             {skill["name"] for skill in skills},
             exporter.skill_dirs(ROOT),
         )
+        for item in [*skills, *workflows]:
+            self.assertTrue(item["iconUrl"].startswith("/catalog-icons/"))
+            self.assertTrue((ROOT / item["iconSource"]).is_file())
 
     def test_public_workflow_projection_excludes_private_sections(self) -> None:
         workflows = exporter.workflow_records(ROOT)
@@ -44,7 +47,7 @@ class SkillroomCatalogExportTests(unittest.TestCase):
         self.assertNotIn("/Users/", public_workflow)
         self.assertEqual(
             set(workflows[0]),
-            {"kind", "name", "displayName", "summary", "category", "dependencies", "latestChange"},
+            {"kind", "name", "displayName", "summary", "category", "iconUrl", "iconSource", "dependencies", "latestChange"},
         )
 
     def test_absolute_path_in_public_dependency_is_rejected(self) -> None:

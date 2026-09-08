@@ -12,6 +12,7 @@ const skills = [
     summary: "Inspect an EPUB.",
     description: "Runs for book files.",
     category: "Books",
+    iconUrl: "/catalog-icons/skills/book-skill.png",
   },
   {
     name: "media-skill",
@@ -20,6 +21,7 @@ const skills = [
     summary: "Summarize a video.",
     description: "Runs for video links.",
     category: "Media",
+    iconUrl: "/catalog-icons/skills/media-skill.png",
   },
 ];
 
@@ -30,6 +32,7 @@ const workflows = [
     displayName: "Media Workflow",
     summary: "Move finished audio into a music library.",
     category: "Media",
+    iconUrl: "/catalog-icons/workflows/media-workflow.png",
   },
 ];
 
@@ -50,7 +53,9 @@ test("generated public data contains categorized skills and no personal absolute
   assert.doesNotMatch(catalog, /\/(?:Users|home|private|Volumes)\//);
   const snapshot = JSON.parse(catalog);
   assert.ok(snapshot.skills.every((skill) => typeof skill.category === "string"));
+  assert.ok(snapshot.skills.every((skill) => skill.iconUrl.startsWith("/catalog-icons/skills/")));
   for (const workflow of snapshot.workflows) {
     assert.equal(typeof workflow.category, "string");
+    assert.ok(workflow.iconUrl.startsWith("/catalog-icons/workflows/"));
   }
 });
