@@ -1,0 +1,7 @@
+interface:
+  display_name: "Bilibili Audio to Apple Music"
+  short_description: "Move verified Bilibili audio into my Music library"
+  icon_small: "./assets/icon-small.png"
+  icon_large: "./assets/icon-large.png"
+  brand_color: "#EA3F91"
+  default_prompt: "Use $download-bilibili-audio-to-apple-music to add this authorized Bilibili video's audio to my Apple Music library."

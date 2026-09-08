@@ -1,6 +1,7 @@
 interface:
   display_name: "Bilibili Audio Downloader"
   short_description: "Source-quality Bilibili audio with rich tags"
-  icon_small: "./assets/logo.png"
-  icon_large: "./assets/logo.png"
+  icon_small: "./assets/icon-small.png"
+  icon_large: "./assets/icon-large.png"
+  brand_color: "#F54A9B"
   default_prompt: "Use $download-bilibili-audio to create a title-named source-quality audio file with verified metadata and official or newly generated cover art."

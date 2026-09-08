@@ -53,11 +53,13 @@ h1 { margin: 0; font: 500 clamp(40px, 7vw, 68px)/1.02 Georgia, "Times New Roman"
 
 .skill-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .skill-card { min-height: 210px; padding: 22px; border: 1px solid var(--line); border-radius: 12px; background: var(--white); }
+.card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.skill-icon { width: 64px; height: 64px; flex: 0 0 auto; border: 1px solid rgba(24, 32, 29, .1); border-radius: 15px; background: #eef1ef; object-fit: cover; box-shadow: 0 8px 22px rgba(24, 32, 29, .09); }
 .card-labels { display: flex; align-items: center; gap: 8px; }
 .item-kind, .skill-category { font-size: 9px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; }
 .item-kind { padding: 4px 6px; border-radius: 5px; background: var(--soft-green); color: var(--green); }
 .skill-category { color: #7f8984; }
-.skill-card h3 { margin: 22px 0 0; font: 600 20px/1.25 Georgia, serif; }
+.skill-card h3 { margin: 18px 0 0; font: 600 20px/1.25 Georgia, serif; }
 .skill-card p { margin: 16px 0 0; color: #5f6965; font-size: 13px; line-height: 1.65; }
 .install-button { width: 34px; height: 34px; display: grid; place-items: center; margin-top: 22px; padding: 0; border: 1px solid #cbdad2; border-radius: 7px; background: #f8fbf9; color: var(--green); cursor: pointer; }
 .install-button:hover { border-color: var(--green); background: var(--soft-green); }

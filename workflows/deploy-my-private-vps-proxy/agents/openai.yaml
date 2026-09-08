@@ -1,0 +1,7 @@
+interface:
+  display_name: "Deploy My Private VPS Proxy"
+  short_description: "Orchestrate my complete private proxy lifecycle"
+  icon_small: "./assets/icon-small.png"
+  icon_large: "./assets/icon-large.png"
+  brand_color: "#17B7A4"
+  default_prompt: "Use $deploy-my-private-vps-proxy to build, migrate, recover, benchmark, or package my private proxy setup."

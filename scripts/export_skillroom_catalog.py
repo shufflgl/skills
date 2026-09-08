@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shutil
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -23,6 +24,7 @@ ABSOLUTE_PATH = re.compile(
 )
 IGNORED_PARTS = {"__pycache__", ".DS_Store", ".pytest_cache"}
 ARTIFACT_KINDS = ("scripts", "tests", "references", "assets")
+INTERFACE_VALUE = re.compile(r'^  ([a-z_]+):\s*"([^"]+)"\s*$')
 
 
 def run(
@@ -132,6 +134,38 @@ def artifacts(directory: Path, root: Path, base_url: str) -> dict[str, list[dict
     return result
 
 
+def web_icon(directory: Path, kind: str) -> dict[str, str]:
+    metadata = directory / "agents" / "openai.yaml"
+    if not metadata.is_file():
+        raise ValueError(f"{directory.name}: agents/openai.yaml is missing")
+    interface = {
+        match.group(1): match.group(2)
+        for line in metadata.read_text(encoding="utf-8").splitlines()
+        if (match := INTERFACE_VALUE.match(line))
+    }
+    relative = interface.get("icon_small", "")
+    if not relative.startswith("./assets/") or ".." in Path(relative).parts:
+        raise ValueError(f"{directory.name}: icon_small must point inside ./assets/")
+    source = directory / relative
+    if not source.is_file():
+        raise ValueError(f"{directory.name}: icon_small does not exist")
+    return {
+        "url": f"/catalog-icons/{kind}/{directory.name}.png",
+        "source": source.as_posix(),
+    }
+
+
+def sync_web_icons(snapshot: dict[str, Any], root: Path, output: Path) -> None:
+    if output.exists():
+        shutil.rmtree(output)
+    for collection in ("skills", "workflows"):
+        destination = output / collection
+        destination.mkdir(parents=True, exist_ok=True)
+        for item in snapshot[collection]:
+            source = root / item.pop("iconSource")
+            shutil.copy2(source, destination / f"{item['name']}.png")
+
+
 def skill_records(root: Path, base_url: str) -> list[dict[str, Any]]:
     summaries = catalog_rows(root)
     categories = read_categories(root)
@@ -151,6 +185,7 @@ def skill_records(root: Path, base_url: str) -> list[dict[str, Any]]:
         if category not in categories:
             raise ValueError(f"{name}: category '{category}' is not in categories.json")
         item_artifacts = artifacts(directory, root, base_url)
+        icon = web_icon(directory, "skills")
         records.append(
             {
                 "kind": "skill",
@@ -160,6 +195,8 @@ def skill_records(root: Path, base_url: str) -> list[dict[str, Any]]:
                 "description": frontmatter["description"],
                 "skillId": f"${name}",
                 "category": category,
+                "iconUrl": icon["url"],
+                "iconSource": str(Path(icon["source"]).relative_to(root)),
                 "path": name,
                 "sourceUrl": source_url(base_url, f"{name}/SKILL.md"),
                 "editUrl": source_url(base_url, f"{name}/SKILL.md", "edit"),
@@ -229,6 +266,9 @@ def workflow_records(root: Path) -> list[dict[str, Any]]:
             raise ValueError(
                 f"{directory.name}: public workflow data contains an absolute path"
             )
+        icon = web_icon(directory, "workflows")
+        record["iconUrl"] = icon["url"]
+        record["iconSource"] = str(Path(icon["source"]).relative_to(root))
         records.append(record)
     return records
 
@@ -353,6 +393,7 @@ def main() -> int:
         "--root", type=Path, default=Path(__file__).resolve().parents[1]
     )
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--assets-output", type=Path)
     parser.add_argument(
         "--allow-failing-checks",
         action="store_true",
@@ -366,6 +407,12 @@ def main() -> int:
         print(f"error: {exc}", file=sys.stderr)
         return 1
     output = args.output.resolve()
+    if args.assets_output:
+        sync_web_icons(snapshot, root, args.assets_output.resolve())
+    else:
+        for collection in ("skills", "workflows"):
+            for item in snapshot[collection]:
+                item.pop("iconSource")
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(snapshot, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(

@@ -9,6 +9,7 @@ export type SkillRecord = {
   description: string;
   skillId: string;
   category: CatalogCategory;
+  iconUrl: string;
 };
 
 export type WorkflowRecord = {
@@ -17,6 +18,7 @@ export type WorkflowRecord = {
   displayName: string;
   summary: string;
   category: CatalogCategory;
+  iconUrl: string;
 };
 
 export type CatalogItem = SkillRecord | WorkflowRecord;

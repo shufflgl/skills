@@ -1,4 +1,7 @@
 interface:
   display_name: "Check EPUB Quality"
   short_description: "Inspect EPUB integrity, cleanliness, and construction quality"
+  icon_small: "./assets/icon-small.png"
+  icon_large: "./assets/icon-large.png"
+  brand_color: "#12B8B0"
   default_prompt: "Use $check-epub-quality to inspect this EPUB and report every quality issue without modifying it."
