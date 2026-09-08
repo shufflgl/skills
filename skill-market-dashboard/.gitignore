@@ -41,4 +41,5 @@ yarn-error.log*
 /work/
 /.generated/
 /public/catalog-icons/
+/public/downloads/
 /.history/

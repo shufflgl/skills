@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Copy, Download } from "lucide-react";
+import { Copy, Download, Terminal } from "lucide-react";
 import { FaGithub } from "react-icons/fa6";
 import snapshotData from "../.generated/catalog.json";
 import {
@@ -219,18 +219,28 @@ Install it using the standard installation method for the current AI client. Con
               </div>
               <h3>{item.displayName}</h3>
               <p>{item.summary}</p>
-              <button
-                className="install-button"
-                type="button"
-                aria-label={`Install ${item.displayName}`}
-                title="Install"
-                onClick={() => {
-                  setCopied(false);
-                  setInstallItem(item);
-                }}
-              >
-                <Download size={16} strokeWidth={1.8} aria-hidden="true" />
-              </button>
+              <div className="card-actions">
+                <button
+                  className="install-button"
+                  type="button"
+                  onClick={() => {
+                    setCopied(false);
+                    setInstallItem(item);
+                  }}
+                >
+                  <Terminal size={15} strokeWidth={1.8} aria-hidden="true" />
+                  Install
+                </button>
+                <a
+                  className="download-button"
+                  href={item.downloadUrl}
+                  download={`${item.name}.zip`}
+                  aria-label={`Download ${item.displayName}`}
+                >
+                  <Download size={15} strokeWidth={1.8} aria-hidden="true" />
+                  Download
+                </a>
+              </div>
             </article>
           ))}
         </div>
