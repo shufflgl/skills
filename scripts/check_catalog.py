@@ -5,13 +5,17 @@ Checks, per skill directory found on disk:
   1. SKILL.md declares a non-empty `catalog_summary` frontmatter field.
   2. The skill has a corresponding row in the README's '## Skill catalog' table.
   3. That row's description cell matches `catalog_summary` verbatim.
+  4. The required small and large icons are packaged and referenced by
+     `agents/openai.yaml`.
 
 Also flags README catalog rows that reference a skill directory that no
 longer exists.
 """
 from __future__ import annotations
 
+import re
 import sys
+from pathlib import Path
 
 from catalog_lib import (
     catalog_rows,
@@ -20,6 +24,29 @@ from catalog_lib import (
     repo_root,
     skill_dirs,
 )
+
+ICON_FIELDS = {
+    "icon_small": "./assets/icon-small.png",
+    "icon_large": "./assets/icon-large.png",
+}
+
+
+def icon_errors(skill_dir: Path) -> list[str]:
+    metadata = skill_dir / "agents" / "openai.yaml"
+    if not metadata.is_file():
+        return [f"{skill_dir.name}: missing agents/openai.yaml"]
+    text = metadata.read_text(encoding="utf-8")
+    errors: list[str] = []
+    for field, expected in ICON_FIELDS.items():
+        match = re.search(rf"^\s+{field}:\s*[\"']?([^\"'\n]+)[\"']?\s*$", text, re.MULTILINE)
+        actual = match.group(1).strip() if match else ""
+        if actual != expected:
+            errors.append(
+                f"{skill_dir.name}: interface.{field} must be {expected!r}"
+            )
+        elif not (skill_dir / actual).is_file():
+            errors.append(f"{skill_dir.name}: missing packaged icon {expected}")
+    return errors
 
 
 def main() -> int:
@@ -33,8 +60,10 @@ def main() -> int:
     missing_category: list[str] = []
     unknown_category: list[tuple[str, str]] = []
     mismatched: list[tuple[str, str, str]] = []
+    icons: list[str] = []
 
     for name in sorted(on_disk):
+        icons.extend(icon_errors(root / name))
         frontmatter = read_frontmatter(root / name / "SKILL.md")
         summary = frontmatter.get("catalog_summary", "").strip()
         category = frontmatter.get("category", "").strip()
@@ -63,6 +92,7 @@ def main() -> int:
         or missing_entry
         or mismatched
         or stale
+        or icons
     ):
         return 0
 
@@ -101,6 +131,10 @@ def main() -> int:
         )
         for name in stale:
             print(f"  - {name}", file=sys.stderr)
+    if icons:
+        print("error: invalid or missing packaged Skill icons:", file=sys.stderr)
+        for error in icons:
+            print(f"  - {error}", file=sys.stderr)
 
     print(
         "\nAdd/update `catalog_summary` in SKILL.md and the matching row in the "

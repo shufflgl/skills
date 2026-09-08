@@ -23,6 +23,10 @@ REQUIRED_SECTIONS = (
     "Failure handling",
 )
 DEPENDENCY_HEADER = ("Skill", "Source", "Requirement", "Purpose")
+ICON_FIELDS = {
+    "icon_small": "./assets/icon-small.png",
+    "icon_large": "./assets/icon-large.png",
+}
 
 
 def parse_frontmatter(path: Path) -> dict[str, str]:
@@ -130,6 +134,24 @@ def validate(root: Path) -> list[str]:
 
         text = skill_file.read_text(encoding="utf-8")
         frontmatter = parse_frontmatter(skill_file)
+        metadata = directory / "agents" / "openai.yaml"
+        if not metadata.is_file():
+            errors.append(f"{name}: missing agents/openai.yaml")
+        else:
+            metadata_text = metadata.read_text(encoding="utf-8")
+            for field, expected in ICON_FIELDS.items():
+                match = re.search(
+                    rf"^\s+{field}:\s*[\"']?([^\"'\n]+)[\"']?\s*$",
+                    metadata_text,
+                    flags=re.MULTILINE,
+                )
+                actual = match.group(1).strip() if match else ""
+                if actual != expected:
+                    errors.append(
+                        f"{name}: interface.{field} must be {expected!r}"
+                    )
+                elif not (directory / actual).is_file():
+                    errors.append(f"{name}: missing packaged icon {expected}")
         for key in FRONTMATTER_KEYS:
             if not frontmatter.get(key):
                 errors.append(f"{name}: missing non-empty frontmatter field '{key}'")
