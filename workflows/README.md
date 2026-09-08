@@ -20,13 +20,24 @@ workflows/
 ├── _template/
 │   └── SKILL.md.template
 └── <workflow-name>/
-    └── SKILL.md
+    ├── SKILL.md
+    ├── agents/
+    │   └── openai.yaml
+    └── assets/
+        ├── icon-small.png
+        └── icon-large.png
 ```
 
 Create a workflow by copying `_template/SKILL.md.template` to
 `<workflow-name>/SKILL.md`, replacing every placeholder, and adding a row to the
 catalog below. Use lowercase hyphen-case for both the directory and frontmatter
 `name`. The directory name, `name`, and catalog link must match.
+
+Design a distinct icon set for every workflow. Reference the packaged files as
+`interface.icon_small: "./assets/icon-small.png"` and
+`interface.icon_large: "./assets/icon-large.png"` in `agents/openai.yaml`.
+These assets are part of the workflow source and must remain included whenever
+the workflow is copied or packaged.
 
 The source directory does not make a workflow discoverable by Codex or Claude.
 Do not create `.agents/` or `.claude/` links here. An installer must install or

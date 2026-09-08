@@ -71,6 +71,15 @@ class WorkflowValidationTests(unittest.TestCase):
         workflow = root / "workflows" / "make-note"
         workflow.mkdir()
         (workflow / "SKILL.md").write_text(VALID_SKILL, encoding="utf-8")
+        (workflow / "agents").mkdir()
+        (workflow / "assets").mkdir()
+        (workflow / "agents" / "openai.yaml").write_text(
+            'interface:\n  icon_small: "./assets/icon-small.png"\n'
+            '  icon_large: "./assets/icon-large.png"\n',
+            encoding="utf-8",
+        )
+        (workflow / "assets" / "icon-small.png").write_bytes(b"small")
+        (workflow / "assets" / "icon-large.png").write_bytes(b"large")
         readme = root / "workflows" / "README.md"
         readme.write_text(
             readme.read_text(encoding="utf-8")
@@ -125,6 +134,14 @@ class WorkflowValidationTests(unittest.TestCase):
         template.mkdir()
         (template / "SKILL.md.template").write_text("placeholders", encoding="utf-8")
         self.assertEqual(check_workflows.validate(root), [])
+
+    def test_missing_packaged_icon_is_rejected(self) -> None:
+        root = self.make_root()
+        workflow = self.add_valid_workflow(root)
+        (workflow / "assets" / "icon-large.png").unlink()
+        self.assertTrue(
+            any("missing packaged icon" in error for error in check_workflows.validate(root))
+        )
 
 
 if __name__ == "__main__":
