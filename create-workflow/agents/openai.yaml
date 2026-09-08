@@ -1,4 +1,7 @@
 interface:
   display_name: "Create Personal Workflow"
   short_description: "Create validated personal workflow orchestrations"
+  icon_small: "./assets/icon-small.png"
+  icon_large: "./assets/icon-large.png"
+  brand_color: "#7657E8"
   default_prompt: "Use $create-workflow to create a personalized workflow from my recurring process."

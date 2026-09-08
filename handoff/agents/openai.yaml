@@ -1,0 +1,7 @@
+interface:
+  display_name: "Portable Task Handoff"
+  short_description: "Transfer unfinished work across agents and machines"
+  icon_small: "./assets/icon-small.png"
+  icon_large: "./assets/icon-large.png"
+  brand_color: "#4EAD82"
+  default_prompt: "Use $handoff to prepare or recover a portable handoff for this unfinished task."

@@ -1,4 +1,7 @@
 interface:
   display_name: "Prepare M4A for Apple Music"
   short_description: "Make M4A containers cloud-library compatible"
+  icon_small: "./assets/icon-small.png"
+  icon_large: "./assets/icon-large.png"
+  brand_color: "#D9455F"
   default_prompt: "Use $prepare-m4a-for-apple-music to inspect and safely remux this M4A for Apple Music cloud upload."

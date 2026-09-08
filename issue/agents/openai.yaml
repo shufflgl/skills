@@ -1,4 +1,7 @@
 interface:
   display_name: "Issue Workspace Manager"
   short_description: "Manage task states, branches, worktrees, and local rules"
+  icon_small: "./assets/icon-small.png"
+  icon_large: "./assets/icon-large.png"
+  brand_color: "#F5A623"
   default_prompt: "Use $issue to manage the current task state, branch, worktree, and shared local project rules."
