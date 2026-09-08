@@ -8,6 +8,7 @@ import re
 import shutil
 import subprocess
 import sys
+import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -166,6 +167,21 @@ def sync_web_icons(snapshot: dict[str, Any], root: Path, output: Path) -> None:
             shutil.copy2(source, destination / f"{item['name']}.png")
 
 
+def sync_downloads(snapshot: dict[str, Any], root: Path, output: Path) -> None:
+    if output.exists():
+        shutil.rmtree(output)
+    output.mkdir(parents=True, exist_ok=True)
+    for collection in ("skills", "workflows"):
+        for item in snapshot[collection]:
+            source = root / (item["name"] if collection == "skills" else f"workflows/{item['name']}")
+            archive = output / f"{item['name']}.zip"
+            with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as bundle:
+                for path in sorted(source.rglob("*")):
+                    if not path.is_file() or any(part in IGNORED_PARTS for part in path.parts):
+                        continue
+                    bundle.write(path, Path(item["name"]) / path.relative_to(source))
+
+
 def skill_records(root: Path, base_url: str) -> list[dict[str, Any]]:
     summaries = catalog_rows(root)
     categories = read_categories(root)
@@ -197,6 +213,7 @@ def skill_records(root: Path, base_url: str) -> list[dict[str, Any]]:
                 "category": category,
                 "iconUrl": icon["url"],
                 "iconSource": str(Path(icon["source"]).relative_to(root)),
+                "downloadUrl": f"/downloads/{name}.zip",
                 "path": name,
                 "sourceUrl": source_url(base_url, f"{name}/SKILL.md"),
                 "editUrl": source_url(base_url, f"{name}/SKILL.md", "edit"),
@@ -269,6 +286,7 @@ def workflow_records(root: Path) -> list[dict[str, Any]]:
         icon = web_icon(directory, "workflows")
         record["iconUrl"] = icon["url"]
         record["iconSource"] = str(Path(icon["source"]).relative_to(root))
+        record["downloadUrl"] = f"/downloads/{directory.name}.zip"
         records.append(record)
     return records
 
@@ -394,6 +412,7 @@ def main() -> int:
     )
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--assets-output", type=Path)
+    parser.add_argument("--downloads-output", type=Path)
     parser.add_argument(
         "--allow-failing-checks",
         action="store_true",
@@ -413,6 +432,8 @@ def main() -> int:
         for collection in ("skills", "workflows"):
             for item in snapshot[collection]:
                 item.pop("iconSource")
+    if args.downloads_output:
+        sync_downloads(snapshot, root, args.downloads_output.resolve())
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(snapshot, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(

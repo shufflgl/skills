@@ -5,6 +5,7 @@ import json
 import sys
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 
 
@@ -38,6 +39,7 @@ class SkillroomCatalogExportTests(unittest.TestCase):
         for item in [*skills, *workflows]:
             self.assertTrue(item["iconUrl"].startswith("/catalog-icons/"))
             self.assertTrue((ROOT / item["iconSource"]).is_file())
+            self.assertEqual(item["downloadUrl"], f"/downloads/{item['name']}.zip")
 
     def test_public_workflow_projection_excludes_private_sections(self) -> None:
         workflows = exporter.workflow_records(ROOT)
@@ -47,8 +49,23 @@ class SkillroomCatalogExportTests(unittest.TestCase):
         self.assertNotIn("/Users/", public_workflow)
         self.assertEqual(
             set(workflows[0]),
-            {"kind", "name", "displayName", "summary", "category", "iconUrl", "iconSource", "dependencies", "latestChange"},
+            {"kind", "name", "displayName", "summary", "category", "iconUrl", "iconSource", "downloadUrl", "dependencies", "latestChange"},
         )
+
+    def test_downloads_contain_complete_skill_directories(self) -> None:
+        snapshot = {
+            "skills": exporter.skill_records(ROOT, exporter.repo_url(ROOT)),
+            "workflows": exporter.workflow_records(ROOT),
+        }
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            exporter.sync_downloads(snapshot, ROOT, output)
+            with zipfile.ZipFile(output / "create-photo-art.zip") as bundle:
+                names = set(bundle.namelist())
+            self.assertIn("create-photo-art/SKILL.md", names)
+            self.assertIn("create-photo-art/agents/openai.yaml", names)
+            self.assertIn("create-photo-art/assets/icon-small.png", names)
+            self.assertIn("create-photo-art/references/aspect-ratios.md", names)
 
     def test_absolute_path_in_public_dependency_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

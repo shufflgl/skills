@@ -61,8 +61,11 @@ h1 { margin: 0; font: 500 clamp(40px, 7vw, 68px)/1.02 Georgia, "Times New Roman"
 .skill-category { color: #7f8984; }
 .skill-card h3 { margin: 18px 0 0; font: 600 20px/1.25 Georgia, serif; }
 .skill-card p { margin: 16px 0 0; color: #5f6965; font-size: 13px; line-height: 1.65; }
-.install-button { width: 34px; height: 34px; display: grid; place-items: center; margin-top: 22px; padding: 0; border: 1px solid #cbdad2; border-radius: 7px; background: #f8fbf9; color: var(--green); cursor: pointer; }
+.card-actions { display: flex; gap: 8px; margin-top: 22px; }
+.install-button, .download-button { min-height: 36px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 0 13px; border: 1px solid #cbdad2; border-radius: 7px; background: #f8fbf9; color: var(--green); cursor: pointer; font-size: 12px; font-weight: 700; }
 .install-button:hover { border-color: var(--green); background: var(--soft-green); }
+.download-button { border-color: var(--ink); background: var(--ink); color: white; }
+.download-button:hover { border-color: var(--green); background: var(--green); }
 
 .empty { min-height: 220px; display: grid; place-items: center; align-content: center; gap: 8px; border: 1px dashed #ccd5d0; border-radius: 12px; color: var(--muted); }
 .empty strong { color: var(--ink); font: 600 18px Georgia, serif; }

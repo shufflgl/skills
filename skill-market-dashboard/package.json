@@ -6,8 +6,8 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "catalog:generate": "python3 ../scripts/export_skillroom_catalog.py --root .. --output .generated/catalog.json --assets-output public/catalog-icons",
-    "catalog:diagnostic": "python3 ../scripts/export_skillroom_catalog.py --root .. --output .generated/catalog.json --assets-output public/catalog-icons --allow-failing-checks",
+    "catalog:generate": "python3 ../scripts/export_skillroom_catalog.py --root .. --output .generated/catalog.json --assets-output public/catalog-icons --downloads-output public/downloads",
+    "catalog:diagnostic": "python3 ../scripts/export_skillroom_catalog.py --root .. --output .generated/catalog.json --assets-output public/catalog-icons --downloads-output public/downloads --allow-failing-checks",
     "predev": "npm run catalog:generate",
     "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext dev",
     "prebuild": "npm run catalog:generate",
